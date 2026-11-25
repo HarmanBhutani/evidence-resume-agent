@@ -30,6 +30,8 @@ Command: `make test` → **92 passed, 0 failed, 0 skipped** (82 s, including one
 | C | Simulations in node: same seed same result; even spread on equal servers; least connections p95 3×+ better with a slow server; faster health check loses fewer requests; least-connections black hole after a crash; overload rejects; two transfers deadlock once and finish; lock ordering gives 0 deadlocks over 4 seeds; slow detector freezes more work; youngest transfer aborted and its lock released | `test_sims.py` | pass |
 | C | `/learn` and `/static/sims.js` served; both pages' scripts pass `node --check` | `test_server_smoke.py` | pass |
 | C | Browser (manual): new main UI at desktop and phone widths, light and dark; summary, filters, gap links, bullet selection, practice feedback, Esc closes the source drawer. Learn page: crash, health-check removal, quiz, comparison tables, deadlock auto-pause. No console or server errors | manual | pass |
+| D | Online demo build: 18 results (3 jobs × replay/mock/attack × authorship on/off) correctly labeled; every citation in every result found in the published repo copy (independent check); relative links; no local paths; in-browser feedback gives the same scores and code points as the Python mock; own job descriptions refused with a clear message | `test_site.py` | pass |
+| D | Published site checked in a browser at the public URL: banner, results, citation drawer, Learn page, hidden local-only controls; no console errors | manual | pass |
 | 7 | One command | `make test` | pass |
 
 ## Live results (samples/outputs/live, recorded in samples/recorded)

@@ -17,6 +17,7 @@
       --blue:#93b4ff; --bluebg:#18264a; --blueline:#2c4380; --user:#c4b5fd; --userbg:#2a2148; --head:#010409; --quote:#2b2610; --quoteline:#5c4f17; }
   }
   * { box-sizing:border-box; }
+  [hidden] { display:none !important; }   /* hidden must win over display:flex rules */
   body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
   :focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
   header { display:flex; align-items:center; gap:10px 14px; padding:12px 20px; background:var(--head); color:#fff; flex-wrap:wrap; }
@@ -245,6 +246,7 @@ const HINTS = {
 };
 
 async function api(url, opts) {
+  if (window.STATIC_API) return window.STATIC_API(url, opts);   // online demo (static hosting)
   const r = await fetch(url, opts);
   if (!r.ok) { let d = ""; try { d = (await r.json()).detail; } catch (e) {} throw new Error(d || r.statusText); }
   return r.json();
@@ -254,8 +256,8 @@ function showError(kind, message) {
   const e = $("error"); e.style.display = "block";
   e.innerHTML = `<b>${esc((kind || "error").replace(/_/g, " ").toUpperCase())}</b>${esc(message)}${HINTS[kind] ? "\n" + esc(HINTS[kind]) : ""}`;
 }
-const MODEL = { mock: "mock-deterministic", replay: "recorded" };
-const EXPECT = { claude_cli: "LIVE", replay: "REPLAYED", mock: "MOCK" };
+const MODEL = { mock: "mock-deterministic", replay: "recorded", mock_attack: "mock-hallucination-attack" };
+const EXPECT = { claude_cli: "LIVE", replay: "REPLAYED", mock: "MOCK", mock_attack: "MOCK" };
 function setBadges(prov, mode, note) {
   $("provBadge").textContent = `provider: ${prov.provider} · ${prov.model}`;
   const m = $("modeBadge"); m.className = "badge b-" + (mode || "idle");
@@ -287,7 +289,7 @@ async function init() {
   $("jdpick").onchange = () => { const j = DEMO.jds.find(x => x.id === $("jdpick").value); if (j) $("jd").value = j.text; };
   $("provider").onchange = () => { const v = $("provider").value || CFG.provider;
     setBadges({ provider: v, model: v === CFG.provider ? CFG.model : MODEL[v] || CFG.model, expected_mode: EXPECT[v] }, null); };
-  if (!CFG.cli_found) { showError("cli_missing", "Claude Code CLI not found on PATH."); $("fbProvider").value = "mock"; }
+  if (!CFG.cli_found && !CFG.static) { showError("cli_missing", "Claude Code CLI not found on PATH."); $("fbProvider").value = "mock"; }
 }
 function renderUser() {
   $("userList").innerHTML = USER.map((t, i) => `<span class="chip-user">${esc(t)}<button type="button" data-i="${i}" aria-label="Remove">×</button></span>`).join("");

@@ -16,6 +16,25 @@ This demo builds resume bullets **only from evidence in your own git repo**, and
 
 > Local personal demo. All sample data is synthetic. Not a hosted service.
 
+## Try it online (nothing to install)
+
+**https://harmanbhutani.github.io/evidence-resume-agent/** · simulators: [learn.html](https://harmanbhutani.github.io/evidence-resume-agent/learn.html)
+
+A static demo for mentors and reviewers. It shows precomputed results for the synthetic sample repo and the three
+sample jobs: the recorded live Claude run (labeled REPLAYED), the offline rules (MOCK), and a fake model that tries to
+cheat, so you can watch the verifier block it. Authorship on/off, clickable citations, interview practice (offline
+scoring rules, in the browser) and both system design simulations work. Nothing there calls a model or reads files.
+It can't analyse your own repo or job, or give feedback from Claude: live runs use the owner's personal Claude login,
+which isn't shared, and the server reads local folders, so it isn't hosted. Run it locally for that.
+
+Rebuild and publish (GitHub Pages serves the `gh-pages` branch):
+
+```bash
+make site      # writes site/: pages + data/ (18 precomputed results, ~0.5 MB); refuses to build if a local path leaks in
+```
+
+Then copy `site/` to the `gh-pages` branch and push. Any static host works (for Netlify, drag `site/` onto Netlify Drop).
+
 ## For evaluators: 5-minute look (no Claude login needed)
 
 ```bash
@@ -182,6 +201,7 @@ See [TEST_REPORT.md](TEST_REPORT.md) for what ran and what is not covered.
 resume_agent/   ingest.py authorship.py verifier.py claims.py techvocab.py pipeline.py prompts.py models.py export.py server.py __main__.py
 resume_agent/llm/   base.py claude_cli.py mock.py replay.py cache.py
 resume_agent/practice.py            answer feedback
+scripts/build_site.py               static online demo (make site) · static/static-demo.js replaces the API with precomputed data
 resume_agent/static/index.html      single-page UI · learn.html + sims.js: system design simulations
 demo/build_sample_repo.py           builds demo/sample_repo (deterministic hashes) · demo/jds/*.txt (3 JDs, 1 adversarial)
 samples/outputs/{live,mock,mock_hallucination_attack}/<jd>/   ledger.json match_report.json bullets.json interview_questions.json resume_bullets.md

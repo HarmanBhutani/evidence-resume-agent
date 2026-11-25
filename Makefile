@@ -2,7 +2,7 @@ VENV ?= .venv
 # use the venv made by `make setup` when it exists, otherwise the system python3
 PY ?= $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 
-.PHONY: eval setup run demo test test-fast test-live record samples sample-repo clean
+.PHONY: site eval setup run demo test test-fast test-live record samples sample-repo clean
 
 eval:             ## quickest look, no Claude login needed: UI on recorded live outputs
 	LLM_PROVIDER=replay $(PY) -m resume_agent serve
@@ -35,5 +35,8 @@ samples:          ## regenerate offline sample outputs (mock + mock hallucinatio
 	LLM_PROVIDER=mock MOCK_HALLUCINATE=1 $(PY) -m resume_agent demo --no-cache --out samples/outputs/_attack
 	mv samples/outputs/_attack/mock samples/outputs/mock_hallucination_attack && rm -rf samples/outputs/_attack
 
+site:             ## build the static online demo into site/ (precomputed results, no server or model calls)
+	$(PY) scripts/build_site.py site
+
 clean:
-	rm -rf .cache out test-report.txt .pytest_cache
+	rm -rf .cache out site test-report.txt .pytest_cache

@@ -10,3 +10,5 @@ demo/sample_repo/
 # private, not published
 PRODUCT_PLAN.md
 .claude/
+# built by `make site`, published to the gh-pages branch
+site/
