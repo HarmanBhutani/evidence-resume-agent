@@ -1,0 +1,12 @@
+.cache/
+out/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+test-report.txt
+# rebuilt on first run (pinned dates, same hashes)
+demo/sample_repo/
+# private, not published
+PRODUCT_PLAN.md
+.claude/

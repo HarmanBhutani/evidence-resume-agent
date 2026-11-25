@@ -1,0 +1,323 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-hallucination-attack",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:25+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "1eddc8b1f57a2e71",
+    "jd_title": "Senior Backend Engineer, Event Streaming (Synthetic Example Co.)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.01,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Strong Python experience building production services",
+      "priority": "required",
+      "keywords": [
+        "python"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Hands-on experience with Kafka consumers, including retry and error-handling strategies",
+      "priority": "required",
+      "keywords": [
+        "kafka",
+        "retries"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "Experience designing dead-letter queues and idempotent message processing",
+      "priority": "required",
+      "keywords": [
+        "dead-letter queue",
+        "idempotency"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Building REST APIs with FastAPI or a similar framework",
+      "priority": "required",
+      "keywords": [
+        "fastapi"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Writing automated tests with pytest",
+      "priority": "required",
+      "keywords": [
+        "pytest"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R6",
+      "text": "Containerizing services with Docker",
+      "priority": "required",
+      "keywords": [
+        "docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "5+ years of professional software engineering experience",
+      "priority": "required",
+      "keywords": [],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: years of experience."
+    },
+    {
+      "id": "R8",
+      "text": "Mentoring junior engineers",
+      "priority": "required",
+      "keywords": [],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: mentoring."
+    },
+    {
+      "id": "R9",
+      "text": "Observability experience with Prometheus",
+      "priority": "preferred",
+      "keywords": [
+        "prometheus"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R10",
+      "text": "CI/CD pipelines (GitHub Actions)",
+      "priority": "preferred",
+      "keywords": [
+        "ci/cd",
+        "github actions"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R11",
+      "text": "PostgreSQL in production",
+      "priority": "preferred",
+      "keywords": [
+        "postgresql"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R12",
+      "text": "Experience with Kubernetes",
+      "priority": "preferred",
+      "keywords": [
+        "kubernetes"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for python",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['python'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "python"
+      ]
+    },
+    {
+      "requirement_id": "R2",
+      "status": "PARTIAL",
+      "ledger_ids": [
+        "L1"
+      ],
+      "rationale": "Evidence found for kafka, retries",
+      "adjustments": [
+        "SUPPORTED -> PARTIAL: not found in evidence: ['retries']"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "retries"
+      ]
+    },
+    {
+      "requirement_id": "R3",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for dead-letter queue, idempotency",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['dead-letter queue', 'idempotency'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "dead-letter queue",
+        "idempotency"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for fastapi",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['fastapi'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "fastapi"
+      ]
+    },
+    {
+      "requirement_id": "R5",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for pytest",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['pytest'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "pytest"
+      ]
+    },
+    {
+      "requirement_id": "R6",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for docker",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['docker'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "docker"
+      ]
+    },
+    {
+      "requirement_id": "R7",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [
+        "non-code requirement cannot be proven by a repo -> GAP"
+      ],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [
+        "non-code requirement cannot be proven by a repo -> GAP"
+      ],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    },
+    {
+      "requirement_id": "R9",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for prometheus",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['prometheus'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "prometheus"
+      ]
+    },
+    {
+      "requirement_id": "R10",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for ci/cd, github actions",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['ci/cd', 'github actions'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "ci/cd",
+        "github actions"
+      ]
+    },
+    {
+      "requirement_id": "R11",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['postgresql'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "postgresql"
+      ]
+    },
+    {
+      "requirement_id": "R12",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['kubernetes'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "kubernetes"
+      ]
+    }
+  ]
+}

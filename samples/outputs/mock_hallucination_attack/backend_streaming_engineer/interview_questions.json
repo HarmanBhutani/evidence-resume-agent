@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-hallucination-attack",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:25+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "1eddc8b1f57a2e71",
+    "jd_title": "Senior Backend Engineer, Event Streaming (Synthetic Example Co.)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.01,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "questions": [
+    {
+      "question": "Why did you cap the backoff, and how would you add jitter?",
+      "why": "Your code: Retry with exponential backoff.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "def backoff_delay(attempt: int, base: float, cap: float) -> float:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How would you monitor and safely replay messages from the dead-letter queue?",
+      "why": "Your code: Dead-letter queue for poison messages.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 55,
+          "end_line": 55,
+          "commit": null,
+          "quote": "def send_to_dlq(self, message, reason: str) -> None:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does your upsert stay correct when events arrive out of order?",
+      "why": "Your code: Idempotent order upserts.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 32,
+          "end_line": 32,
+          "commit": null,
+          "quote": "ON CONFLICT(order_id) DO UPDATE SET",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why keyset/cursor pagination instead of OFFSET, and what breaks if the sort key isn't unique?",
+      "why": "Your code: Cursor pagination.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 24,
+          "end_line": 24,
+          "commit": null,
+          "quote": "def list_orders(limit: int = 50, cursor: str | None = None) -> dict:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "What delivery guarantee does committing after processing give you, and what duplicates can occur?",
+      "why": "Your code: Kafka consumer with manual offset commits.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 6,
+          "end_line": 6,
+          "commit": null,
+          "quote": "from kafka import KafkaConsumer, KafkaProducer",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    }
+  ]
+}

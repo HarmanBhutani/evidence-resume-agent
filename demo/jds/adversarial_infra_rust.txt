@@ -1,0 +1,15 @@
+Staff Infrastructure Engineer (Synthetic Example Co. - adversarial sample)
+
+This posting deliberately asks for skills the sample repository does NOT contain.
+
+Required
+- Production Terraform: modules, remote state, multi-account AWS landscapes
+- Systems programming in Rust
+- Operating Kubernetes clusters with Helm
+- Go for internal tooling
+- Leading a platform team of 8+ engineers
+
+Preferred
+- Python
+- Docker
+- GraphQL federation

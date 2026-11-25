@@ -1,0 +1,322 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-deterministic",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:22+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer (Synthetic Example Co.)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.01,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "bullets": [
+    {
+      "id": "B1",
+      "text": "Built REST endpoints with FastAPI for order lookup.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R1"
+      ],
+      "ledger_ids": [
+        "L5"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 2,
+          "end_line": 2,
+          "commit": null,
+          "quote": "from fastapi import FastAPI, HTTPException",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "@app.get(\"/orders/{order_id}\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B2",
+      "text": "Implemented cursor pagination for order listing.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R2"
+      ],
+      "ledger_ids": [
+        "L6"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 24,
+          "end_line": 24,
+          "commit": null,
+          "quote": "def list_orders(limit: int = 50, cursor: str | None = None) -> dict:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 25,
+          "end_line": 25,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B3",
+      "text": "Persisted order data in SQLite.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R3"
+      ],
+      "ledger_ids": [
+        "L9"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 2,
+          "end_line": 2,
+          "commit": null,
+          "quote": "import sqlite3",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 9,
+          "end_line": 9,
+          "commit": null,
+          "quote": "self.conn = sqlite3.connect(path or Settings().db_path)",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B4",
+      "text": "Wrote automated tests with pytest.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R4"
+      ],
+      "ledger_ids": [
+        "L8"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "tests/test_api.py",
+          "start_line": 4,
+          "end_line": 4,
+          "commit": null,
+          "quote": "import pytest",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "tests/test_api.py",
+          "start_line": 20,
+          "end_line": 20,
+          "commit": null,
+          "quote": "def test_get_order_404(client):",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B5",
+      "text": "Instrumented the service with Prometheus counters and a histogram.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R5"
+      ],
+      "ledger_ids": [
+        "L7"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/metrics.py",
+          "start_line": 2,
+          "end_line": 2,
+          "commit": null,
+          "quote": "from prometheus_client import Counter, Histogram",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/metrics.py",
+          "start_line": 4,
+          "end_line": 4,
+          "commit": null,
+          "quote": "EVENTS_PROCESSED = Counter(\"orderflow_events_processed_total\", \"Order events processed\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B6",
+      "text": "Containerized the service with a Dockerfile.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6"
+      ],
+      "ledger_ids": [
+        "L10"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 1,
+          "end_line": 1,
+          "commit": null,
+          "quote": "FROM python:3.11-slim",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 7,
+          "end_line": 7,
+          "commit": null,
+          "quote": "CMD [\"uvicorn\", \"orderflow.api:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B7",
+      "text": "Set up a GitHub Actions workflow that runs pytest.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R7"
+      ],
+      "ledger_ids": [
+        "L11"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 5,
+          "end_line": 5,
+          "commit": null,
+          "quote": "runs-on: ubuntu-latest",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "- run: pytest -q",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    }
+  ],
+  "rejected": []
+}

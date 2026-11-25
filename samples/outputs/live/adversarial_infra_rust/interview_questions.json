@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:42:42+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "8e677c8cbab6f1e0",
+    "jd_title": "Staff Infrastructure Engineer",
+    "step_modes": {
+      "ledger": "LIVE",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 16.76,
+      "jd_parse": 4.91,
+      "match": 6.98,
+      "generate": 15.27
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "questions": [
+    {
+      "question": "Why did you disable auto-commit and commit offsets manually after each message, and what delivery guarantee does that give you?",
+      "why": "The consumer sets enable_auto_commit=False and calls commit() after handling, showing a deliberate at-least-once style choice.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 23,
+          "end_line": 29,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 64,
+          "end_line": 68,
+          "commit": null,
+          "quote": "self.consumer.commit()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does your retry logic distinguish permanent from transient errors, and why is the backoff capped?",
+      "why": "The code implements a capped exponential backoff and stops retrying immediately on PermanentError.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 15,
+          "end_line": 17,
+          "commit": null,
+          "quote": "\"\"\"Exponential backoff: base * 2^attempt, capped.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 43,
+          "end_line": 45,
+          "commit": null,
+          "quote": "except PermanentError:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "What are the trade-offs of publishing poison messages to a dead-letter topic rather than blocking the partition?",
+      "why": "The code publishes failed messages to a dead-letter topic so the partition keeps moving.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 55,
+          "end_line": 61,
+          "commit": null,
+          "quote": "\"\"\"Publish a poison message to the dead-letter topic so the partition keeps moving.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does the DLQ replay endpoint work, and what could go wrong when replaying a dead-lettered event?",
+      "why": "A POST replay endpoint and a dead_letters table re-run events through the normal handler, raising questions about idempotency and repeated failures.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 33,
+          "end_line": 35,
+          "commit": null,
+          "quote": "@app.post(\"/dlq/{dead_letter_id}/replay\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 20,
+          "end_line": 25,
+          "commit": null,
+          "quote": "CREATE TABLE IF NOT EXISTS dead_letters (",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 4 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does your upsert guarantee that replays and stale versions never overwrite newer data?",
+      "why": "The store uses an ON CONFLICT upsert guarded by a version comparison.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 27,
+          "end_line": 39,
+          "commit": null,
+          "quote": "\"\"\"Idempotent write: replays and stale versions never overwrite newer data.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 12 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 32,
+          "end_line": 36,
+          "commit": null,
+          "quote": "WHERE excluded.version > orders.version\"\"\",",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why did you choose keyset/cursor pagination over OFFSET, and how do you handle the last page?",
+      "why": "The store uses keyset pagination with stable ordering by order_id, and the API returns a null next_cursor on the last page.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why did you make the settings a frozen dataclass read from environment variables?",
+      "why": "Config is centralized in an immutable dataclass with environment-driven values such as the database path.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 6,
+          "end_line": 8,
+          "commit": null,
+          "quote": "@dataclass(frozen=True)",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "db_path: str = os.getenv(\"ORDERFLOW_DB\", \"orderflow.db\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:43:49+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer",
+    "step_modes": {
+      "ledger": "LIVE (cached)",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 0.0,
+      "jd_parse": 6.01,
+      "match": 7.07,
+      "generate": 16.75
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "bullets": [
+    {
+      "id": "B1",
+      "text": "Built FastAPI endpoints for order lookup that return a 404 through HTTPException when an order is missing.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R1"
+      ],
+      "ledger_ids": [
+        "L5"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 10,
+          "end_line": 20,
+          "commit": null,
+          "quote": "raise HTTPException(status_code=404, detail=\"order not found\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 9 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1effbbdb04",
+          "quote": "Add FastAPI REST endpoints for order lookup",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1effbbdb04e13fceaec5e01ee927c45e97948507",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B2",
+      "text": "Implemented cursor pagination for order listing in the API, backed by keyset pagination in the store with no OFFSET scans.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R2"
+      ],
+      "ledger_ids": [
+        "L6"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B3",
+      "text": "Wrote a SQLite store with idempotent upserts so replays and stale versions never overwrite newer data.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R3"
+      ],
+      "ledger_ids": [
+        "L7"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 27,
+          "end_line": 39,
+          "commit": null,
+          "quote": "\"\"\"Idempotent write: replays and stale versions never overwrite newer data.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 12 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "f3cfc390a1",
+          "quote": "Add SQLite store with idempotent order upserts",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "f3cfc390a1e682470a1d51ffbb7b140fedfbf1a2",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B4",
+      "text": "Wrote a pytest suite covering consumer retries and DLQ, plus an API test that walks all pages of cursor pagination.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R4"
+      ],
+      "ledger_ids": [
+        "L10"
+      ],
+      "evidence": [
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1ee4a5fbb5",
+          "quote": "Add pytest suite for consumer retries and DLQ",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1ee4a5fbb5da5e521ca215292daece32612770e1",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        },
+        {
+          "kind": "file",
+          "path": "tests/test_api.py",
+          "start_line": 25,
+          "end_line": 35,
+          "commit": null,
+          "quote": "def test_cursor_pagination_walks_all_pages(client):",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 11 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B5",
+      "text": "Instrumented services with Prometheus counters and a histogram, wiring the counters into the consumer.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R5"
+      ],
+      "ledger_ids": [
+        "L8"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/metrics.py",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "from prometheus_client import Counter, Histogram",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 41,
+          "end_line": 41,
+          "commit": null,
+          "quote": "EVENTS_PROCESSED.inc()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B6",
+      "text": "Wrote a Dockerfile that runs the FastAPI app with uvicorn.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6",
+        "R1"
+      ],
+      "ledger_ids": [
+        "L11"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "CMD [\"uvicorn\", \"orderflow.api:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B7",
+      "text": "Configured a GitHub Actions workflow that runs pytest across Python 3.11 and 3.12.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R7",
+        "R4"
+      ],
+      "ledger_ids": [
+        "L12"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 1,
+          "end_line": 15,
+          "commit": null,
+          "quote": "python-version: [\"3.11\", \"3.12\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 15 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "- run: pytest -q",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    }
+  ],
+  "rejected": []
+}

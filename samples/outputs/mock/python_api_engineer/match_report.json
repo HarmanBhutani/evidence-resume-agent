@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-deterministic",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:22+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer (Synthetic Example Co.)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.01,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Python and FastAPI",
+      "priority": "required",
+      "keywords": [
+        "python",
+        "fastapi"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Pagination and API design best practices",
+      "priority": "required",
+      "keywords": [
+        "pagination"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "SQL databases (SQLite or PostgreSQL)",
+      "priority": "required",
+      "keywords": [
+        "sql",
+        "sqlite",
+        "postgresql"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Unit and API testing with pytest",
+      "priority": "required",
+      "keywords": [
+        "testing",
+        "pytest"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Metrics and monitoring of services",
+      "priority": "required",
+      "keywords": [
+        "metrics",
+        "monitoring"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R6",
+      "text": "Docker",
+      "priority": "preferred",
+      "keywords": [
+        "docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "Continuous integration",
+      "priority": "preferred",
+      "keywords": [
+        "continuous integration"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R8",
+      "text": "Strong communication with stakeholders",
+      "priority": "preferred",
+      "keywords": [],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: communication/stakeholders."
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L5",
+        "L8",
+        "L10"
+      ],
+      "rationale": "Evidence found for python, fastapi",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R2",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L6",
+        "L13",
+        "L14"
+      ],
+      "rationale": "Evidence found for pagination",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R3",
+      "status": "PARTIAL",
+      "ledger_ids": [
+        "L9"
+      ],
+      "rationale": "Evidence found for sqlite",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "sql",
+        "postgresql"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L5",
+        "L8",
+        "L10"
+      ],
+      "rationale": "Evidence found for testing, pytest",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R5",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L7"
+      ],
+      "rationale": "Evidence found for metrics, monitoring",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R6",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L10"
+      ],
+      "rationale": "Evidence found for docker",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R7",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L11"
+      ],
+      "rationale": "Evidence found for continuous integration",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    }
+  ]
+}

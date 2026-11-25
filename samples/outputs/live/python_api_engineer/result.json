@@ -1,0 +1,1274 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:43:49+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer",
+    "step_modes": {
+      "ledger": "LIVE (cached)",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 0.0,
+      "jd_parse": 6.01,
+      "match": 7.07,
+      "generate": 16.75
+    }
+  },
+  "ledger": [
+    {
+      "id": "L1",
+      "kind": "skill",
+      "name": "Kafka consumer with manual offset commits",
+      "summary": "Built a KafkaConsumer configured with a group id and auto-commit disabled, committing offsets after each message is handled.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 23,
+          "end_line": 29,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 64,
+          "end_line": 68,
+          "commit": null,
+          "quote": "self.consumer.commit()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "7cf00521cc",
+          "quote": "Add Kafka consumer with manual offset commits",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "7cf00521ccb3fae66b08ed5344e3f8ea400cf4d0",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "kind": "achievement",
+      "name": "Retry with exponential backoff",
+      "summary": "Implemented a capped exponential backoff delay and a retry loop that stops immediately on permanent errors.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 15,
+          "end_line": 17,
+          "commit": null,
+          "quote": "\"\"\"Exponential backoff: base * 2^attempt, capped.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 43,
+          "end_line": 45,
+          "commit": null,
+          "quote": "except PermanentError:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "27d5299421",
+          "quote": "Add retry with exponential backoff to consumer",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "27d5299421a584d2ab648de59cd6b85d72bb8866",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "kind": "achievement",
+      "name": "Dead-letter queue publishing for poison messages",
+      "summary": "Added a producer that publishes failed messages to a dead-letter topic so the partition keeps moving.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 55,
+          "end_line": 61,
+          "commit": null,
+          "quote": "\"\"\"Publish a poison message to the dead-letter topic so the partition keeps moving.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "a71065aab2",
+          "quote": "Add dead-letter queue publishing for poison messages",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "a71065aab236a8dc98832c363d274e4e0d432a67",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "kind": "achievement",
+      "name": "DLQ replay endpoint",
+      "summary": "Added a POST endpoint and a dead_letters table that re-run a dead-lettered event through the normal handler.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 33,
+          "end_line": 35,
+          "commit": null,
+          "quote": "@app.post(\"/dlq/{dead_letter_id}/replay\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 20,
+          "end_line": 25,
+          "commit": null,
+          "quote": "CREATE TABLE IF NOT EXISTS dead_letters (",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 4 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "43c93a1408",
+          "quote": "Add DLQ replay endpoint and dead_letters table",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "43c93a1408bc1a7203745a654bf79ff1222ff19e",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L5",
+      "kind": "skill",
+      "name": "FastAPI REST endpoints",
+      "summary": "Built FastAPI endpoints for health check and order lookup that return a 404 via HTTPException when an order is missing.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 10,
+          "end_line": 20,
+          "commit": null,
+          "quote": "raise HTTPException(status_code=404, detail=\"order not found\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 9 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1effbbdb04",
+          "quote": "Add FastAPI REST endpoints for order lookup",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1effbbdb04e13fceaec5e01ee927c45e97948507",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L6",
+      "kind": "achievement",
+      "name": "Cursor-based pagination for order listing",
+      "summary": "Implemented cursor pagination in the API on top of keyset pagination in the store, avoiding OFFSET scans.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "058c74c16b",
+          "quote": "Add cursor pagination to order listing",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "058c74c16ba4c7bc592c20f4f66505fc82851b36",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L7",
+      "kind": "skill",
+      "name": "SQLite persistence with idempotent upserts",
+      "summary": "Wrote a SQLite store using an ON CONFLICT upsert guarded by a version check so replays and stale versions never overwrite newer data.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 27,
+          "end_line": 39,
+          "commit": null,
+          "quote": "\"\"\"Idempotent write: replays and stale versions never overwrite newer data.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 12 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 32,
+          "end_line": 36,
+          "commit": null,
+          "quote": "WHERE excluded.version > orders.version\"\"\",",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "f3cfc390a1",
+          "quote": "Add SQLite store with idempotent order upserts",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "f3cfc390a1e682470a1d51ffbb7b140fedfbf1a2",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L8",
+      "kind": "skill",
+      "name": "Prometheus metrics instrumentation",
+      "summary": "Defined Prometheus counters and a histogram and wired the counters into the consumer.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/metrics.py",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "from prometheus_client import Counter, Histogram",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 41,
+          "end_line": 41,
+          "commit": null,
+          "quote": "EVENTS_PROCESSED.inc()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "958e5b3ff7",
+          "quote": "Add Prometheus metrics for consumer and API",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "958e5b3ff7e6c22ddc163ed406c17b0ecb1864dd",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L9",
+      "kind": "skill",
+      "name": "Event validation with permanent-error handling",
+      "summary": "Validated order events for required fields and negative amounts, raising a PermanentError for malformed events that must never be retried.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/handlers.py",
+          "start_line": 4,
+          "end_line": 16,
+          "commit": null,
+          "quote": "\"\"\"Raised for malformed events that must never be retried.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 9 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "id": "L10",
+      "kind": "skill",
+      "name": "pytest testing with fakes and monkeypatching",
+      "summary": "",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "tests/test_consumer.py",
+          "start_line": 11,
+          "end_line": 19,
+          "commit": null,
+          "quote": "class FakeProducer:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "tests/test_api.py",
+          "start_line": 25,
+          "end_line": 35,
+          "commit": null,
+          "quote": "def test_cursor_pagination_walks_all_pages(client):",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 11 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1ee4a5fbb5",
+          "quote": "Add pytest suite for consumer retries and DLQ",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1ee4a5fbb5da5e521ca215292daece32612770e1",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L11",
+      "kind": "skill",
+      "name": "Docker containerization",
+      "summary": "Wrote a Dockerfile that installs requirements and runs the FastAPI app with uvicorn.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "CMD [\"uvicorn\", \"orderflow.api:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "f3fbc6a457",
+          "quote": "Add Dockerfile and GitHub Actions CI workflow",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "f3fbc6a457e391b8821f736c22c40077d46d9a92",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    },
+    {
+      "id": "L12",
+      "kind": "skill",
+      "name": "GitHub Actions CI",
+      "summary": "Configured a GitHub Actions workflow that runs pytest across a Python version matrix on push and pull request.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 1,
+          "end_line": 15,
+          "commit": null,
+          "quote": "python-version: [\"3.11\", \"3.12\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 15 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "- run: pytest -q",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "id": "L13",
+      "kind": "skill",
+      "name": "Environment-based configuration with frozen dataclass",
+      "summary": "Centralized runtime settings in a frozen dataclass that reads Kafka bootstrap servers and the database path from environment variables.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 6,
+          "end_line": 8,
+          "commit": null,
+          "quote": "@dataclass(frozen=True)",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "db_path: str = os.getenv(\"ORDERFLOW_DB\", \"orderflow.db\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Python and FastAPI",
+      "priority": "required",
+      "keywords": [
+        "Python",
+        "FastAPI"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Pagination and API design best practices",
+      "priority": "required",
+      "keywords": [
+        "pagination",
+        "API design"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "SQL databases (SQLite or PostgreSQL)",
+      "priority": "required",
+      "keywords": [
+        "SQL",
+        "SQLite",
+        "PostgreSQL"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Unit and API testing with pytest",
+      "priority": "required",
+      "keywords": [
+        "unit testing",
+        "API testing",
+        "pytest",
+        "testing"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Metrics and monitoring of services",
+      "priority": "required",
+      "keywords": [
+        "metrics",
+        "monitoring"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R6",
+      "text": "Docker",
+      "priority": "preferred",
+      "keywords": [
+        "Docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "Continuous integration",
+      "priority": "preferred",
+      "keywords": [
+        "continuous integration",
+        "CI"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R8",
+      "text": "Strong communication with stakeholders",
+      "priority": "preferred",
+      "keywords": [
+        "communication",
+        "stakeholders"
+      ],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: communication/stakeholders."
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L5",
+        "L12"
+      ],
+      "rationale": "FastAPI endpoints with HTTPException are built in orderflow/api.py, and the CI workflow runs Python 3.11/3.12 with pytest.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R2",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L6",
+        "L5"
+      ],
+      "rationale": "Cursor-based pagination over keyset store queries plus REST endpoints with proper 404 handling demonstrate API design and pagination.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R3",
+      "status": "PARTIAL",
+      "ledger_ids": [
+        "L7",
+        "L4"
+      ],
+      "rationale": "SQLite store with ON CONFLICT idempotent upserts and a dead_letters table is shown in orderflow/store.py.",
+      "adjustments": [
+        "SUPPORTED -> PARTIAL: not found in evidence: ['PostgreSQL']"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L10"
+      ],
+      "rationale": "pytest suite includes consumer tests with fakes and an API test walking cursor pagination pages.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R5",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L8"
+      ],
+      "rationale": "Prometheus counters and a histogram were defined, with counters wired into the consumer.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R6",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L11"
+      ],
+      "rationale": "A Dockerfile installs requirements and runs the FastAPI app with uvicorn.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R7",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L12"
+      ],
+      "rationale": "GitHub Actions workflow runs pytest across a Python version matrix on push and pull request.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No ledger evidence of stakeholder communication.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    }
+  ],
+  "bullets": [
+    {
+      "id": "B1",
+      "text": "Built FastAPI endpoints for order lookup that return a 404 through HTTPException when an order is missing.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R1"
+      ],
+      "ledger_ids": [
+        "L5"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 10,
+          "end_line": 20,
+          "commit": null,
+          "quote": "raise HTTPException(status_code=404, detail=\"order not found\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 9 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1effbbdb04",
+          "quote": "Add FastAPI REST endpoints for order lookup",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1effbbdb04e13fceaec5e01ee927c45e97948507",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B2",
+      "text": "Implemented cursor pagination for order listing in the API, backed by keyset pagination in the store with no OFFSET scans.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R2"
+      ],
+      "ledger_ids": [
+        "L6"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B3",
+      "text": "Wrote a SQLite store with idempotent upserts so replays and stale versions never overwrite newer data.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R3"
+      ],
+      "ledger_ids": [
+        "L7"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 27,
+          "end_line": 39,
+          "commit": null,
+          "quote": "\"\"\"Idempotent write: replays and stale versions never overwrite newer data.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 12 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "f3cfc390a1",
+          "quote": "Add SQLite store with idempotent order upserts",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "f3cfc390a1e682470a1d51ffbb7b140fedfbf1a2",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B4",
+      "text": "Wrote a pytest suite covering consumer retries and DLQ, plus an API test that walks all pages of cursor pagination.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R4"
+      ],
+      "ledger_ids": [
+        "L10"
+      ],
+      "evidence": [
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1ee4a5fbb5",
+          "quote": "Add pytest suite for consumer retries and DLQ",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1ee4a5fbb5da5e521ca215292daece32612770e1",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        },
+        {
+          "kind": "file",
+          "path": "tests/test_api.py",
+          "start_line": 25,
+          "end_line": 35,
+          "commit": null,
+          "quote": "def test_cursor_pagination_walks_all_pages(client):",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 11 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B5",
+      "text": "Instrumented services with Prometheus counters and a histogram, wiring the counters into the consumer.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R5"
+      ],
+      "ledger_ids": [
+        "L8"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/metrics.py",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "from prometheus_client import Counter, Histogram",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 41,
+          "end_line": 41,
+          "commit": null,
+          "quote": "EVENTS_PROCESSED.inc()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B6",
+      "text": "Wrote a Dockerfile that runs the FastAPI app with uvicorn.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6",
+        "R1"
+      ],
+      "ledger_ids": [
+        "L11"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "CMD [\"uvicorn\", \"orderflow.api:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B7",
+      "text": "Configured a GitHub Actions workflow that runs pytest across Python 3.11 and 3.12.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R7",
+        "R4"
+      ],
+      "ledger_ids": [
+        "L12"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 1,
+          "end_line": 15,
+          "commit": null,
+          "quote": "python-version: [\"3.11\", \"3.12\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 15 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "- run: pytest -q",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    }
+  ],
+  "interview": [
+    {
+      "question": "Why did you choose keyset pagination over OFFSET, and what are the trade-offs for clients?",
+      "why": "The store uses keyset pagination with stable ordering by order_id and avoids OFFSET scans, with a cursor exposed in the API.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does the version check in the upsert protect against out-of-order or replayed events?",
+      "why": "The upsert only updates when the incoming version is greater than the stored one.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 32,
+          "end_line": 36,
+          "commit": null,
+          "quote": "WHERE excluded.version > orders.version\"\"\",",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 27,
+          "end_line": 39,
+          "commit": null,
+          "quote": "\"\"\"Idempotent write: replays and stale versions never overwrite newer data.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 12 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why disable Kafka auto-commit and commit manually, and what happens if the process crashes between handling and commit?",
+      "why": "The consumer sets enable_auto_commit=False and calls commit explicitly after handling.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 23,
+          "end_line": 29,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 64,
+          "end_line": 68,
+          "commit": null,
+          "quote": "self.consumer.commit()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why does the retry loop stop immediately on PermanentError, and how did you design the backoff cap?",
+      "why": "Retries use capped exponential backoff but permanent errors are handled separately and not retried.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 15,
+          "end_line": 17,
+          "commit": null,
+          "quote": "\"\"\"Exponential backoff: base * 2^attempt, capped.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 43,
+          "end_line": 45,
+          "commit": null,
+          "quote": "except PermanentError:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "What is the purpose of the dead-letter topic, and how do you ensure poison messages don't block a partition?",
+      "why": "Failed messages are published to a dead-letter topic so the partition keeps moving.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 55,
+          "end_line": 61,
+          "commit": null,
+          "quote": "\"\"\"Publish a poison message to the dead-letter topic so the partition keeps moving.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does the DLQ replay endpoint work, and what risks arise when replaying an event?",
+      "why": "A POST endpoint with a dead_letters table re-runs dead-lettered events through the normal handler.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 33,
+          "end_line": 35,
+          "commit": null,
+          "quote": "@app.post(\"/dlq/{dead_letter_id}/replay\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 20,
+          "end_line": 25,
+          "commit": null,
+          "quote": "CREATE TABLE IF NOT EXISTS dead_letters (",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 4 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How did you test the consumer without a real Kafka broker?",
+      "why": "Tests use a FakeProducer class to stand in for Kafka dependencies.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "tests/test_consumer.py",
+          "start_line": 11,
+          "end_line": 19,
+          "commit": null,
+          "quote": "class FakeProducer:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why use a frozen dataclass for configuration read from environment variables?",
+      "why": "Config is centralized in an immutable dataclass with env-based defaults such as the DB path.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 6,
+          "end_line": 8,
+          "commit": null,
+          "quote": "@dataclass(frozen=True)",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "db_path: str = os.getenv(\"ORDERFLOW_DB\", \"orderflow.db\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "what": "ledger summary",
+      "text": "Wrote pytest tests for retry/backoff and DLQ routing using a FakeProducer and monkeypatch, plus FastAPI TestClient tests for pagination and replay.",
+      "reasons": [
+        "technology/concept 'exponential backoff' not found in cited evidence",
+        "named term 'TestClient' not found in cited evidence"
+      ]
+    }
+  ],
+  "user_items": [],
+  "notices": [
+    "Authorship checked against git history for the emails you selected. Git authorship can be faked and does not show whether code was copied or generated, so this is evidence, not certification.",
+    "Repos cannot prove leadership, mentoring, years of experience, communication or other non-code work. Those requirements are never marked supported; add them manually below and they appear labeled 'user-provided, unverified'."
+  ],
+  "authorship": {
+    "checked": true,
+    "identities": [
+      "demo@example.invalid"
+    ],
+    "warnings": []
+  }
+}

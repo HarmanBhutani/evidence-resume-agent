@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:43:17+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "1eddc8b1f57a2e71",
+    "jd_title": "Senior Backend Engineer, Event Streaming",
+    "step_modes": {
+      "ledger": "LIVE (cached)",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 0.0,
+      "jd_parse": 7.68,
+      "match": 7.81,
+      "generate": 18.54
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "questions": [
+    {
+      "question": "Why did you disable auto-commit and commit offsets manually after each message? What happens if the process crashes between handling and commit?",
+      "why": "The consumer sets enable_auto_commit=False and calls commit() after handling, which implies at-least-once delivery and a need for idempotent handling.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 23,
+          "end_line": 29,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 64,
+          "end_line": 68,
+          "commit": null,
+          "quote": "self.consumer.commit()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How did you choose the backoff parameters and cap, and what are the risks of blocking the partition while retrying?",
+      "why": "The code implements capped exponential backoff (base * 2^attempt) in the consumer's retry loop.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 15,
+          "end_line": 17,
+          "commit": null,
+          "quote": "\"\"\"Exponential backoff: base * 2^attempt, capped.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why does the retry loop stop immediately on PermanentError, and how do you decide which errors are permanent?",
+      "why": "The consumer has a dedicated except PermanentError branch, and handlers raise it for malformed events that must never be retried.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 43,
+          "end_line": 45,
+          "commit": null,
+          "quote": "except PermanentError:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/handlers.py",
+          "start_line": 4,
+          "end_line": 16,
+          "commit": null,
+          "quote": "\"\"\"Raised for malformed events that must never be retried.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 9 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "What are the failure modes of publishing to the dead-letter topic, and what happens if the DLQ publish itself fails?",
+      "why": "The code publishes poison messages to a dead-letter topic so the partition keeps moving, which raises ordering and loss trade-offs.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 55,
+          "end_line": 61,
+          "commit": null,
+          "quote": "\"\"\"Publish a poison message to the dead-letter topic so the partition keeps moving.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does the DLQ replay endpoint interact with the idempotent store, and could replaying an event cause duplicates or overwrite newer data?",
+      "why": "Replay re-runs dead-lettered events through the normal handler, while the upsert only applies when the incoming version is greater.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 33,
+          "end_line": 35,
+          "commit": null,
+          "quote": "@app.post(\"/dlq/{dead_letter_id}/replay\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 32,
+          "end_line": 36,
+          "commit": null,
+          "quote": "WHERE excluded.version > orders.version\"\"\",",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why use keyset pagination instead of OFFSET, and what are its limitations with respect to ordering and cursor design?",
+      "why": "The store documents keyset pagination with stable ordering by order_id and no OFFSET scans, exposed via a cursor in the API.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How did you test the consumer's retry and DLQ behavior without a real Kafka broker?",
+      "why": "The tests use a FakeProducer class and a pytest suite targeting consumer retries and DLQ.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "tests/test_consumer.py",
+          "start_line": 11,
+          "end_line": 19,
+          "commit": null,
+          "quote": "class FakeProducer:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1ee4a5fbb5",
+          "quote": "Add pytest suite for consumer retries and DLQ",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1ee4a5fbb5da5e521ca215292daece32612770e1",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ]
+    }
+  ]
+}

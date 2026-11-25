@@ -1,0 +1,227 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:43:49+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer",
+    "step_modes": {
+      "ledger": "LIVE (cached)",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 0.0,
+      "jd_parse": 6.01,
+      "match": 7.07,
+      "generate": 16.75
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Python and FastAPI",
+      "priority": "required",
+      "keywords": [
+        "Python",
+        "FastAPI"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Pagination and API design best practices",
+      "priority": "required",
+      "keywords": [
+        "pagination",
+        "API design"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "SQL databases (SQLite or PostgreSQL)",
+      "priority": "required",
+      "keywords": [
+        "SQL",
+        "SQLite",
+        "PostgreSQL"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Unit and API testing with pytest",
+      "priority": "required",
+      "keywords": [
+        "unit testing",
+        "API testing",
+        "pytest",
+        "testing"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Metrics and monitoring of services",
+      "priority": "required",
+      "keywords": [
+        "metrics",
+        "monitoring"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R6",
+      "text": "Docker",
+      "priority": "preferred",
+      "keywords": [
+        "Docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "Continuous integration",
+      "priority": "preferred",
+      "keywords": [
+        "continuous integration",
+        "CI"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R8",
+      "text": "Strong communication with stakeholders",
+      "priority": "preferred",
+      "keywords": [
+        "communication",
+        "stakeholders"
+      ],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: communication/stakeholders."
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L5",
+        "L12"
+      ],
+      "rationale": "FastAPI endpoints with HTTPException are built in orderflow/api.py, and the CI workflow runs Python 3.11/3.12 with pytest.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R2",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L6",
+        "L5"
+      ],
+      "rationale": "Cursor-based pagination over keyset store queries plus REST endpoints with proper 404 handling demonstrate API design and pagination.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R3",
+      "status": "PARTIAL",
+      "ledger_ids": [
+        "L7",
+        "L4"
+      ],
+      "rationale": "SQLite store with ON CONFLICT idempotent upserts and a dead_letters table is shown in orderflow/store.py.",
+      "adjustments": [
+        "SUPPORTED -> PARTIAL: not found in evidence: ['PostgreSQL']"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L10"
+      ],
+      "rationale": "pytest suite includes consumer tests with fakes and an API test walking cursor pagination pages.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R5",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L8"
+      ],
+      "rationale": "Prometheus counters and a histogram were defined, with counters wired into the consumer.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R6",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L11"
+      ],
+      "rationale": "A Dockerfile installs requirements and runs the FastAPI app with uvicorn.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R7",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L12"
+      ],
+      "rationale": "GitHub Actions workflow runs pytest across a Python version matrix on push and pull request.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No ledger evidence of stakeholder communication.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    }
+  ]
+}

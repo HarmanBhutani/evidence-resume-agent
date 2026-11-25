@@ -1,0 +1,236 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-hallucination-attack",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:25+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "1eddc8b1f57a2e71",
+    "jd_title": "Senior Backend Engineer, Event Streaming (Synthetic Example Co.)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.01,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "bullets": [
+    {
+      "id": "B1",
+      "text": "Built a Kafka consumer that disables auto commit and commits offsets after processing.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R2"
+      ],
+      "ledger_ids": [
+        "L1"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 6,
+          "end_line": 6,
+          "commit": null,
+          "quote": "from kafka import KafkaConsumer, KafkaProducer",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 27,
+          "end_line": 27,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B2",
+      "text": "Reduced consumer latency by 40% using Kafka and Terraform.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [],
+      "ledger_ids": [],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 6,
+          "end_line": 6,
+          "commit": null,
+          "quote": "from kafka import KafkaConsumer, KafkaProducer",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": [
+        "number '40' not found in cited evidence",
+        "technology/concept 'terraform' not found in cited evidence"
+      ]
+    },
+    {
+      "id": "B3",
+      "text": "Built a Kafka consumer.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [],
+      "ledger_ids": [],
+      "evidence": [
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "deadbee",
+          "quote": "Add Kafka consumer",
+          "verified": false,
+          "verify_note": "commit not found: 'deadbee'",
+          "resolved_commit": null,
+          "authorship": "unchecked",
+          "authorship_note": ""
+        }
+      ],
+      "block_reasons": [
+        "commit deadbee: commit not found: 'deadbee'",
+        "no valid evidence"
+      ]
+    },
+    {
+      "id": "B4",
+      "text": "Led a team of 5 engineers building the Kafka pipeline.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [],
+      "ledger_ids": [],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 6,
+          "end_line": 6,
+          "commit": null,
+          "quote": "from kafka import KafkaConsumer, KafkaProducer",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": [
+        "number '5' not found in cited evidence",
+        "'led' (leadership/mentoring/non-code) cannot be proven from a repo"
+      ]
+    },
+    {
+      "id": "B5",
+      "text": "Built a Kafka consumer.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [],
+      "ledger_ids": [],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 1,
+          "end_line": 2,
+          "commit": null,
+          "quote": "this text is not in the file",
+          "verified": false,
+          "verify_note": "quoted snippet not found in orderflow/consumer.py:1-2",
+          "resolved_commit": null,
+          "authorship": "unchecked",
+          "authorship_note": ""
+        }
+      ],
+      "block_reasons": [
+        "orderflow/consumer.py:1-2: quoted snippet not found in orderflow/consumer.py:1-2",
+        "no valid evidence"
+      ]
+    },
+    {
+      "id": "B6",
+      "text": "Wrote Rust services.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [],
+      "ledger_ids": [],
+      "evidence": [],
+      "block_reasons": [
+        "no evidence cited"
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "what": "bullet",
+      "text": "Reduced consumer latency by 40% using Kafka and Terraform.",
+      "reasons": [
+        "number '40' not found in cited evidence",
+        "technology/concept 'terraform' not found in cited evidence"
+      ]
+    },
+    {
+      "what": "bullet",
+      "text": "Built a Kafka consumer.",
+      "reasons": [
+        "commit deadbee: commit not found: 'deadbee'",
+        "no valid evidence"
+      ]
+    },
+    {
+      "what": "bullet",
+      "text": "Led a team of 5 engineers building the Kafka pipeline.",
+      "reasons": [
+        "number '5' not found in cited evidence",
+        "'led' (leadership/mentoring/non-code) cannot be proven from a repo"
+      ]
+    },
+    {
+      "what": "bullet",
+      "text": "Built a Kafka consumer.",
+      "reasons": [
+        "orderflow/consumer.py:1-2: quoted snippet not found in orderflow/consumer.py:1-2",
+        "no valid evidence"
+      ]
+    },
+    {
+      "what": "bullet",
+      "text": "Wrote Rust services.",
+      "reasons": [
+        "no evidence cited"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+Senior Backend Engineer, Event Streaming (Synthetic Example Co.)
+
+About the role
+We run an order-processing platform and need an engineer to own our event pipelines and the APIs on top of them.
+
+Required
+- Strong Python experience building production services
+- Hands-on experience with Kafka consumers, including retry and error-handling strategies
+- Experience designing dead-letter queues and idempotent message processing
+- Building REST APIs with FastAPI or a similar framework
+- Writing automated tests with pytest
+- Containerizing services with Docker
+- 5+ years of professional software engineering experience
+- Mentoring junior engineers
+
+Preferred
+- Observability experience with Prometheus
+- CI/CD pipelines (GitHub Actions)
+- PostgreSQL in production
+- Experience with Kubernetes

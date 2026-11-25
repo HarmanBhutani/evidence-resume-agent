@@ -1,0 +1,315 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:43:17+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "1eddc8b1f57a2e71",
+    "jd_title": "Senior Backend Engineer, Event Streaming",
+    "step_modes": {
+      "ledger": "LIVE (cached)",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 0.0,
+      "jd_parse": 7.68,
+      "match": 7.81,
+      "generate": 18.54
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Strong Python experience building production services",
+      "priority": "required",
+      "keywords": [
+        "Python"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Hands-on experience with Kafka consumers, including retry and error-handling strategies",
+      "priority": "required",
+      "keywords": [
+        "Kafka",
+        "consumers",
+        "retries",
+        "error handling"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "Experience designing dead-letter queues and idempotent message processing",
+      "priority": "required",
+      "keywords": [
+        "dead-letter queues",
+        "idempotent message processing",
+        "dead-letter queue",
+        "idempotency"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Building REST APIs with FastAPI or a similar framework",
+      "priority": "required",
+      "keywords": [
+        "REST",
+        "APIs",
+        "FastAPI"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Writing automated tests with pytest",
+      "priority": "required",
+      "keywords": [
+        "pytest",
+        "automated testing"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R6",
+      "text": "Containerizing services with Docker",
+      "priority": "required",
+      "keywords": [
+        "Docker",
+        "containers"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "5+ years of professional software engineering experience",
+      "priority": "required",
+      "keywords": [],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: years of experience."
+    },
+    {
+      "id": "R8",
+      "text": "Mentoring junior engineers",
+      "priority": "required",
+      "keywords": [
+        "mentoring"
+      ],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: mentoring."
+    },
+    {
+      "id": "R9",
+      "text": "Observability experience with Prometheus",
+      "priority": "preferred",
+      "keywords": [
+        "Prometheus",
+        "observability"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R10",
+      "text": "CI/CD pipelines (GitHub Actions)",
+      "priority": "preferred",
+      "keywords": [
+        "CI/CD",
+        "GitHub Actions"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R11",
+      "text": "PostgreSQL in production",
+      "priority": "preferred",
+      "keywords": [
+        "PostgreSQL"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R12",
+      "text": "Experience with Kubernetes",
+      "priority": "preferred",
+      "keywords": [
+        "Kubernetes"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "PARTIAL",
+      "ledger_ids": [
+        "L1",
+        "L5",
+        "L12"
+      ],
+      "rationale": "Python code for a Kafka consumer, FastAPI service and pytest CI is shown, but only in one project, which does not establish strong production experience.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R2",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L1",
+        "L2",
+        "L9"
+      ],
+      "rationale": "Kafka consumer with manual offset commits, exponential backoff retries, and permanent-error handling that skips retries.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R3",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L3",
+        "L4",
+        "L7"
+      ],
+      "rationale": "Dead-letter topic publishing with a replay endpoint, plus idempotent version-guarded upserts.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R4",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L5",
+        "L6"
+      ],
+      "rationale": "FastAPI endpoints for order lookup and cursor-paginated listing.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R5",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L10",
+        "L12"
+      ],
+      "rationale": "pytest suite covering consumer retries, DLQ and API pagination, run in CI.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R6",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L11"
+      ],
+      "rationale": "Dockerfile runs the FastAPI app with uvicorn.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R7",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "The ledger shows no evidence of years of professional experience.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No mentoring evidence appears in the ledger.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    },
+    {
+      "requirement_id": "R9",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L8"
+      ],
+      "rationale": "Prometheus counters and a histogram defined with counters wired into the consumer.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R10",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L12",
+        "L11"
+      ],
+      "rationale": "GitHub Actions workflow runs pytest across a Python version matrix on push and pull request.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R11",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Only SQLite is shown; no PostgreSQL evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "requirement_id": "R12",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No Kubernetes evidence appears in the ledger.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "Kubernetes"
+      ]
+    }
+  ]
+}

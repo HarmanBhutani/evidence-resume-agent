@@ -1,0 +1,259 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:42:42+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "8e677c8cbab6f1e0",
+    "jd_title": "Staff Infrastructure Engineer",
+    "step_modes": {
+      "ledger": "LIVE",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 16.76,
+      "jd_parse": 4.91,
+      "match": 6.98,
+      "generate": 15.27
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "bullets": [
+    {
+      "id": "B1",
+      "text": "Built a Kafka consumer in Python with a group id and auto-commit disabled, committing offsets manually after each message is handled.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6"
+      ],
+      "ledger_ids": [
+        "L1"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 23,
+          "end_line": 29,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 64,
+          "end_line": 68,
+          "commit": null,
+          "quote": "self.consumer.commit()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ],
+      "block_reasons": [
+        "technology/concept 'python' not found in cited evidence"
+      ]
+    },
+    {
+      "id": "B2",
+      "text": "Built FastAPI endpoints for order lookup that raise an HTTPException with a 404 status when an order is not found.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6"
+      ],
+      "ledger_ids": [
+        "L5"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 10,
+          "end_line": 20,
+          "commit": null,
+          "quote": "raise HTTPException(status_code=404, detail=\"order not found\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 9 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1effbbdb04",
+          "quote": "Add FastAPI REST endpoints for order lookup",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1effbbdb04e13fceaec5e01ee927c45e97948507",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B3",
+      "text": "Wrote a pytest suite using a FakeProducer to test consumer retries and DLQ behavior, plus a cursor pagination test across all pages.",
+      "status": "blocked",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6"
+      ],
+      "ledger_ids": [
+        "L10"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "tests/test_consumer.py",
+          "start_line": 11,
+          "end_line": 19,
+          "commit": null,
+          "quote": "class FakeProducer:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "1ee4a5fbb5",
+          "quote": "Add pytest suite for consumer retries and DLQ",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "1ee4a5fbb5da5e521ca215292daece32612770e1",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": [
+        "technology/concept 'pagination' not found in cited evidence"
+      ]
+    },
+    {
+      "id": "B4",
+      "text": "Configured a GitHub Actions workflow that runs pytest across a Python version matrix of 3.11 and 3.12.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6"
+      ],
+      "ledger_ids": [
+        "L12"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 1,
+          "end_line": 15,
+          "commit": null,
+          "quote": "python-version: [\"3.11\", \"3.12\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 15 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": ".github/workflows/ci.yml",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "- run: pytest -q",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B5",
+      "text": "Wrote a Dockerfile that runs the FastAPI app with uvicorn, containerizing the service.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R7"
+      ],
+      "ledger_ids": [
+        "L11"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 1,
+          "end_line": 7,
+          "commit": null,
+          "quote": "CMD [\"uvicorn\", \"orderflow.api:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        },
+        {
+          "kind": "commit",
+          "path": null,
+          "start_line": null,
+          "end_line": null,
+          "commit": "f3fbc6a457",
+          "quote": "Add Dockerfile and GitHub Actions CI workflow",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": "f3fbc6a457e391b8821f736c22c40077d46d9a92",
+          "authorship": "mine",
+          "authorship_note": "you authored this commit"
+        }
+      ],
+      "block_reasons": []
+    }
+  ],
+  "rejected": [
+    {
+      "what": "bullet",
+      "text": "Built a Kafka consumer in Python with a group id and auto-commit disabled, committing offsets manually after each message is handled.",
+      "reasons": [
+        "technology/concept 'python' not found in cited evidence"
+      ]
+    },
+    {
+      "what": "bullet",
+      "text": "Wrote a pytest suite using a FakeProducer to test consumer retries and DLQ behavior, plus a cursor pagination test across all pages.",
+      "reasons": [
+        "technology/concept 'pagination' not found in cited evidence"
+      ]
+    }
+  ]
+}

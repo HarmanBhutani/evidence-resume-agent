@@ -1,0 +1,77 @@
+{
+  "task": "jd_parse",
+  "fingerprint": "8e677c8cbab6f1e0",
+  "provider": "claude_cli",
+  "model": "sonnet",
+  "recorded_at": "2026-11-25T00:42:19+00:00",
+  "response": {
+    "title": "Staff Infrastructure Engineer",
+    "requirements": [
+      {
+        "text": "Production Terraform: modules, remote state, multi-account AWS landscapes",
+        "priority": "required",
+        "keywords": [
+          "Terraform",
+          "modules",
+          "remote state",
+          "AWS",
+          "multi-account"
+        ]
+      },
+      {
+        "text": "Systems programming in Rust",
+        "priority": "required",
+        "keywords": [
+          "Rust",
+          "systems programming"
+        ]
+      },
+      {
+        "text": "Operating Kubernetes clusters with Helm",
+        "priority": "required",
+        "keywords": [
+          "Kubernetes",
+          "Helm"
+        ]
+      },
+      {
+        "text": "Go for internal tooling",
+        "priority": "required",
+        "keywords": [
+          "Go",
+          "internal tooling"
+        ]
+      },
+      {
+        "text": "Leading a platform team of 8+ engineers",
+        "priority": "required",
+        "keywords": [
+          "team leadership",
+          "platform team"
+        ]
+      },
+      {
+        "text": "Python",
+        "priority": "preferred",
+        "keywords": [
+          "Python"
+        ]
+      },
+      {
+        "text": "Docker",
+        "priority": "preferred",
+        "keywords": [
+          "Docker"
+        ]
+      },
+      {
+        "text": "GraphQL federation",
+        "priority": "preferred",
+        "keywords": [
+          "GraphQL",
+          "federation"
+        ]
+      }
+    ]
+  }
+}

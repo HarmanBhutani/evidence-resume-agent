@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-hallucination-attack",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:26+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer (Synthetic Example Co.)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.01,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Python and FastAPI",
+      "priority": "required",
+      "keywords": [
+        "python",
+        "fastapi"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Pagination and API design best practices",
+      "priority": "required",
+      "keywords": [
+        "pagination"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "SQL databases (SQLite or PostgreSQL)",
+      "priority": "required",
+      "keywords": [
+        "sql",
+        "sqlite",
+        "postgresql"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Unit and API testing with pytest",
+      "priority": "required",
+      "keywords": [
+        "testing",
+        "pytest"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Metrics and monitoring of services",
+      "priority": "required",
+      "keywords": [
+        "metrics",
+        "monitoring"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R6",
+      "text": "Docker",
+      "priority": "preferred",
+      "keywords": [
+        "docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "Continuous integration",
+      "priority": "preferred",
+      "keywords": [
+        "continuous integration"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R8",
+      "text": "Strong communication with stakeholders",
+      "priority": "preferred",
+      "keywords": [],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: communication/stakeholders."
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for python, fastapi",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['python', 'fastapi'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "python",
+        "fastapi"
+      ]
+    },
+    {
+      "requirement_id": "R2",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for pagination",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['pagination'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "pagination"
+      ]
+    },
+    {
+      "requirement_id": "R3",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for sqlite",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['sql', 'sqlite', 'postgresql'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "sql",
+        "sqlite",
+        "postgresql"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for testing, pytest",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['testing', 'pytest'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "testing",
+        "pytest"
+      ]
+    },
+    {
+      "requirement_id": "R5",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for metrics, monitoring",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['metrics', 'monitoring'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "metrics",
+        "monitoring"
+      ]
+    },
+    {
+      "requirement_id": "R6",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for docker",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['docker'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "docker"
+      ]
+    },
+    {
+      "requirement_id": "R7",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Evidence found for continuous integration",
+      "adjustments": [
+        "SUPPORTED -> GAP: none of ['continuous integration'] appears in the cited evidence"
+      ],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "continuous integration"
+      ]
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [
+        "non-code requirement cannot be proven by a repo -> GAP"
+      ],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    }
+  ]
+}

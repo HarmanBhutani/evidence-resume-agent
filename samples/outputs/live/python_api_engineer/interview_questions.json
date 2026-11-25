@@ -1,0 +1,264 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:43:49+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "0daaf47c99088670",
+    "jd_title": "Python API Engineer",
+    "step_modes": {
+      "ledger": "LIVE (cached)",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 0.0,
+      "jd_parse": 6.01,
+      "match": 7.07,
+      "generate": 16.75
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "questions": [
+    {
+      "question": "Why did you choose keyset pagination over OFFSET, and what are the trade-offs for clients?",
+      "why": "The store uses keyset pagination with stable ordering by order_id and avoids OFFSET scans, with a cursor exposed in the API.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 45,
+          "end_line": 46,
+          "commit": null,
+          "quote": "\"\"\"Keyset pagination: stable ordering by order_id, no OFFSET scans.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 2 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 23,
+          "end_line": 30,
+          "commit": null,
+          "quote": "\"\"\"Cursor-paginated listing; next_cursor is null on the last page.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 8 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does the version check in the upsert protect against out-of-order or replayed events?",
+      "why": "The upsert only updates when the incoming version is greater than the stored one.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 32,
+          "end_line": 36,
+          "commit": null,
+          "quote": "WHERE excluded.version > orders.version\"\"\",",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 27,
+          "end_line": 39,
+          "commit": null,
+          "quote": "\"\"\"Idempotent write: replays and stale versions never overwrite newer data.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 12 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why disable Kafka auto-commit and commit manually, and what happens if the process crashes between handling and commit?",
+      "why": "The consumer sets enable_auto_commit=False and calls commit explicitly after handling.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 23,
+          "end_line": 29,
+          "commit": null,
+          "quote": "enable_auto_commit=False,",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 64,
+          "end_line": 68,
+          "commit": null,
+          "quote": "self.consumer.commit()",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 5 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why does the retry loop stop immediately on PermanentError, and how did you design the backoff cap?",
+      "why": "Retries use capped exponential backoff but permanent errors are handled separately and not retried.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 15,
+          "end_line": 17,
+          "commit": null,
+          "quote": "\"\"\"Exponential backoff: base * 2^attempt, capped.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 43,
+          "end_line": 45,
+          "commit": null,
+          "quote": "except PermanentError:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "What is the purpose of the dead-letter topic, and how do you ensure poison messages don't block a partition?",
+      "why": "Failed messages are published to a dead-letter topic so the partition keeps moving.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/consumer.py",
+          "start_line": 55,
+          "end_line": 61,
+          "commit": null,
+          "quote": "\"\"\"Publish a poison message to the dead-letter topic so the partition keeps moving.\"\"\"",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 6 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How does the DLQ replay endpoint work, and what risks arise when replaying an event?",
+      "why": "A POST endpoint with a dead_letters table re-runs dead-lettered events through the normal handler.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 33,
+          "end_line": 35,
+          "commit": null,
+          "quote": "@app.post(\"/dlq/{dead_letter_id}/replay\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/store.py",
+          "start_line": 20,
+          "end_line": 25,
+          "commit": null,
+          "quote": "CREATE TABLE IF NOT EXISTS dead_letters (",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 4 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "How did you test the consumer without a real Kafka broker?",
+      "why": "Tests use a FakeProducer class to stand in for Kafka dependencies.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "tests/test_consumer.py",
+          "start_line": 11,
+          "end_line": 19,
+          "commit": null,
+          "quote": "class FakeProducer:",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 7 cited code lines are yours"
+        }
+      ]
+    },
+    {
+      "question": "Why use a frozen dataclass for configuration read from environment variables?",
+      "why": "Config is centralized in an immutable dataclass with env-based defaults such as the DB path.",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 6,
+          "end_line": 8,
+          "commit": null,
+          "quote": "@dataclass(frozen=True)",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 3 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/config.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "db_path: str = os.getenv(\"ORDERFLOW_DB\", \"orderflow.db\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ]
+    }
+  ]
+}

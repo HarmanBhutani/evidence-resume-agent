@@ -1,0 +1,16 @@
+Python API Engineer (Synthetic Example Co.)
+
+Responsibilities
+Design and ship HTTP APIs that other teams depend on.
+
+Requirements
+- Python and FastAPI
+- Pagination and API design best practices
+- SQL databases (SQLite or PostgreSQL)
+- Unit and API testing with pytest
+- Metrics and monitoring of services
+
+Nice to have
+- Docker
+- Continuous integration
+- Strong communication with stakeholders

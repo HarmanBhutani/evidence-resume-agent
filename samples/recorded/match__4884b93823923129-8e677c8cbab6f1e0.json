@@ -1,0 +1,66 @@
+{
+  "task": "match",
+  "fingerprint": "4884b93823923129-8e677c8cbab6f1e0",
+  "provider": "claude_cli",
+  "model": "sonnet",
+  "recorded_at": "2026-11-25T00:42:26+00:00",
+  "response": {
+    "matches": [
+      {
+        "requirement_id": "R1",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No Terraform, remote state, or AWS multi-account evidence in the ledger."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No Rust or systems programming evidence; the code shown is Python."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No Kubernetes or Helm evidence; only a Dockerfile is shown."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No Go code or internal tooling in Go appears in the ledger."
+      },
+      {
+        "requirement_id": "R5",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No evidence of leading a team or platform team."
+      },
+      {
+        "requirement_id": "R6",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L1",
+          "L5",
+          "L10",
+          "L12"
+        ],
+        "rationale": "Python Kafka consumer, FastAPI endpoints, pytest suite, and a CI Python version matrix are shown."
+      },
+      {
+        "requirement_id": "R7",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L11"
+        ],
+        "rationale": "Dockerfile installs requirements and runs the FastAPI app with uvicorn."
+      },
+      {
+        "requirement_id": "R8",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "Only REST endpoints are shown; no GraphQL or federation evidence."
+      }
+    ]
+  }
+}

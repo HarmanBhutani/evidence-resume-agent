@@ -1,0 +1,104 @@
+{
+  "task": "jd_parse",
+  "fingerprint": "1eddc8b1f57a2e71",
+  "provider": "claude_cli",
+  "model": "sonnet",
+  "recorded_at": "2026-11-25T00:42:51+00:00",
+  "response": {
+    "title": "Senior Backend Engineer, Event Streaming",
+    "requirements": [
+      {
+        "text": "Strong Python experience building production services",
+        "priority": "required",
+        "keywords": [
+          "Python"
+        ]
+      },
+      {
+        "text": "Hands-on experience with Kafka consumers, including retry and error-handling strategies",
+        "priority": "required",
+        "keywords": [
+          "Kafka",
+          "consumers",
+          "retries",
+          "error handling"
+        ]
+      },
+      {
+        "text": "Experience designing dead-letter queues and idempotent message processing",
+        "priority": "required",
+        "keywords": [
+          "dead-letter queues",
+          "idempotent message processing"
+        ]
+      },
+      {
+        "text": "Building REST APIs with FastAPI or a similar framework",
+        "priority": "required",
+        "keywords": [
+          "REST",
+          "APIs",
+          "FastAPI"
+        ]
+      },
+      {
+        "text": "Writing automated tests with pytest",
+        "priority": "required",
+        "keywords": [
+          "pytest",
+          "automated testing"
+        ]
+      },
+      {
+        "text": "Containerizing services with Docker",
+        "priority": "required",
+        "keywords": [
+          "Docker",
+          "containers"
+        ]
+      },
+      {
+        "text": "5+ years of professional software engineering experience",
+        "priority": "required",
+        "keywords": []
+      },
+      {
+        "text": "Mentoring junior engineers",
+        "priority": "required",
+        "keywords": [
+          "mentoring"
+        ]
+      },
+      {
+        "text": "Observability experience with Prometheus",
+        "priority": "preferred",
+        "keywords": [
+          "Prometheus",
+          "observability"
+        ]
+      },
+      {
+        "text": "CI/CD pipelines (GitHub Actions)",
+        "priority": "preferred",
+        "keywords": [
+          "CI/CD",
+          "GitHub Actions"
+        ]
+      },
+      {
+        "text": "PostgreSQL in production",
+        "priority": "preferred",
+        "keywords": [
+          "PostgreSQL"
+        ]
+      },
+      {
+        "text": "Experience with Kubernetes",
+        "priority": "preferred",
+        "keywords": [
+          "Kubernetes"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "task": "match",
+  "fingerprint": "4884b93823923129-1eddc8b1f57a2e71",
+  "provider": "claude_cli",
+  "model": "sonnet",
+  "recorded_at": "2026-11-25T00:42:59+00:00",
+  "response": {
+    "matches": [
+      {
+        "requirement_id": "R1",
+        "status": "PARTIAL",
+        "ledger_ids": [
+          "L1",
+          "L5",
+          "L12"
+        ],
+        "rationale": "Python code for a Kafka consumer, FastAPI service and pytest CI is shown, but only in one project, which does not establish strong production experience."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L1",
+          "L2",
+          "L9"
+        ],
+        "rationale": "Kafka consumer with manual offset commits, exponential backoff retries, and permanent-error handling that skips retries."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L3",
+          "L4",
+          "L7"
+        ],
+        "rationale": "Dead-letter topic publishing with a replay endpoint, plus idempotent version-guarded upserts."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L5",
+          "L6"
+        ],
+        "rationale": "FastAPI endpoints for order lookup and cursor-paginated listing."
+      },
+      {
+        "requirement_id": "R5",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L10",
+          "L12"
+        ],
+        "rationale": "pytest suite covering consumer retries, DLQ and API pagination, run in CI."
+      },
+      {
+        "requirement_id": "R6",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L11"
+        ],
+        "rationale": "Dockerfile runs the FastAPI app with uvicorn."
+      },
+      {
+        "requirement_id": "R7",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "The ledger shows no evidence of years of professional experience."
+      },
+      {
+        "requirement_id": "R8",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No mentoring evidence appears in the ledger."
+      },
+      {
+        "requirement_id": "R9",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L8"
+        ],
+        "rationale": "Prometheus counters and a histogram defined with counters wired into the consumer."
+      },
+      {
+        "requirement_id": "R10",
+        "status": "SUPPORTED",
+        "ledger_ids": [
+          "L12",
+          "L11"
+        ],
+        "rationale": "GitHub Actions workflow runs pytest across a Python version matrix on push and pull request."
+      },
+      {
+        "requirement_id": "R11",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "Only SQLite is shown; no PostgreSQL evidence."
+      },
+      {
+        "requirement_id": "R12",
+        "status": "GAP",
+        "ledger_ids": [],
+        "rationale": "No Kubernetes evidence appears in the ledger."
+      }
+    ]
+  }
+}

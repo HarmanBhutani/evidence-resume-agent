@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-deterministic",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:19+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "8e677c8cbab6f1e0",
+    "jd_title": "Staff Infrastructure Engineer (Synthetic Example Co. - adversarial sample)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.0,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "bullets": [
+    {
+      "id": "B1",
+      "text": "Built REST endpoints with FastAPI for order lookup.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R6"
+      ],
+      "ledger_ids": [
+        "L5"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 2,
+          "end_line": 2,
+          "commit": null,
+          "quote": "from fastapi import FastAPI, HTTPException",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "orderflow/api.py",
+          "start_line": 15,
+          "end_line": 15,
+          "commit": null,
+          "quote": "@app.get(\"/orders/{order_id}\")",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    },
+    {
+      "id": "B2",
+      "text": "Containerized the service with a Dockerfile.",
+      "status": "ok",
+      "origin": "verified",
+      "requirement_ids": [
+        "R7"
+      ],
+      "ledger_ids": [
+        "L10"
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 1,
+          "end_line": 1,
+          "commit": null,
+          "quote": "FROM python:3.11-slim",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        },
+        {
+          "kind": "file",
+          "path": "Dockerfile",
+          "start_line": 7,
+          "end_line": 7,
+          "commit": null,
+          "quote": "CMD [\"uvicorn\", \"orderflow.api:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "verified": true,
+          "verify_note": "ok",
+          "resolved_commit": null,
+          "authorship": "mine",
+          "authorship_note": "all 1 cited code lines are yours"
+        }
+      ],
+      "block_reasons": []
+    }
+  ],
+  "rejected": []
+}

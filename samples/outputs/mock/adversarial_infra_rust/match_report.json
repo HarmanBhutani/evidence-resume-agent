@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "provider": "mock",
+    "model": "mock-deterministic",
+    "mode": "MOCK",
+    "cached": false,
+    "generated_at": "2026-11-25T00:39:19+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "8e677c8cbab6f1e0",
+    "jd_title": "Staff Infrastructure Engineer (Synthetic Example Co. - adversarial sample)",
+    "step_modes": {
+      "ledger": "MOCK",
+      "jd_parse": "MOCK",
+      "match": "MOCK",
+      "generate": "MOCK"
+    },
+    "timings_s": {
+      "ledger": 0.02,
+      "jd_parse": 0.0,
+      "match": 0.0,
+      "generate": 0.0
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Production Terraform: modules, remote state, multi-account AWS landscapes",
+      "priority": "required",
+      "keywords": [
+        "terraform",
+        "aws"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Systems programming in Rust",
+      "priority": "required",
+      "keywords": [
+        "rust"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "Operating Kubernetes clusters with Helm",
+      "priority": "required",
+      "keywords": [
+        "kubernetes",
+        "helm"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Go for internal tooling",
+      "priority": "required",
+      "keywords": [
+        "go"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Leading a platform team of 8+ engineers",
+      "priority": "required",
+      "keywords": [],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: leadership."
+    },
+    {
+      "id": "R6",
+      "text": "Python",
+      "priority": "preferred",
+      "keywords": [
+        "python"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "Docker",
+      "priority": "preferred",
+      "keywords": [
+        "docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R8",
+      "text": "GraphQL federation",
+      "priority": "preferred",
+      "keywords": [
+        "graphql"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "terraform",
+        "aws"
+      ]
+    },
+    {
+      "requirement_id": "R2",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "rust"
+      ]
+    },
+    {
+      "requirement_id": "R3",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "kubernetes",
+        "helm"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "go"
+      ]
+    },
+    {
+      "requirement_id": "R5",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    },
+    {
+      "requirement_id": "R6",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L5",
+        "L8",
+        "L10"
+      ],
+      "rationale": "Evidence found for python",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R7",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L10"
+      ],
+      "rationale": "Evidence found for docker",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No matching evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "graphql"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "task": "jd_parse",
+  "fingerprint": "0daaf47c99088670",
+  "provider": "claude_cli",
+  "model": "sonnet",
+  "recorded_at": "2026-11-25T00:43:25+00:00",
+  "response": {
+    "title": "Python API Engineer",
+    "requirements": [
+      {
+        "text": "Python and FastAPI",
+        "priority": "required",
+        "keywords": [
+          "Python",
+          "FastAPI"
+        ]
+      },
+      {
+        "text": "Pagination and API design best practices",
+        "priority": "required",
+        "keywords": [
+          "pagination",
+          "API design"
+        ]
+      },
+      {
+        "text": "SQL databases (SQLite or PostgreSQL)",
+        "priority": "required",
+        "keywords": [
+          "SQL",
+          "SQLite",
+          "PostgreSQL"
+        ]
+      },
+      {
+        "text": "Unit and API testing with pytest",
+        "priority": "required",
+        "keywords": [
+          "unit testing",
+          "API testing",
+          "pytest"
+        ]
+      },
+      {
+        "text": "Metrics and monitoring of services",
+        "priority": "required",
+        "keywords": [
+          "metrics",
+          "monitoring"
+        ]
+      },
+      {
+        "text": "Docker",
+        "priority": "preferred",
+        "keywords": [
+          "Docker"
+        ]
+      },
+      {
+        "text": "Continuous integration",
+        "priority": "preferred",
+        "keywords": [
+          "continuous integration",
+          "CI"
+        ]
+      },
+      {
+        "text": "Strong communication with stakeholders",
+        "priority": "preferred",
+        "keywords": [
+          "communication",
+          "stakeholders"
+        ]
+      }
+    ]
+  }
+}

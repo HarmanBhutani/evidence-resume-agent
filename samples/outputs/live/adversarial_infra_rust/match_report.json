@@ -1,0 +1,224 @@
+{
+  "meta": {
+    "provider": "claude_cli",
+    "model": "sonnet",
+    "mode": "LIVE",
+    "cached": false,
+    "generated_at": "2026-11-25T00:42:42+00:00",
+    "repo_name": "sample_repo",
+    "repo_hash": "4884b93823923129",
+    "jd_hash": "8e677c8cbab6f1e0",
+    "jd_title": "Staff Infrastructure Engineer",
+    "step_modes": {
+      "ledger": "LIVE",
+      "jd_parse": "LIVE",
+      "match": "LIVE",
+      "generate": "LIVE"
+    },
+    "timings_s": {
+      "ledger": 16.76,
+      "jd_parse": 4.91,
+      "match": 6.98,
+      "generate": 15.27
+    },
+    "authorship": {
+      "checked": true,
+      "identities": [
+        "demo@example.invalid"
+      ],
+      "warnings": []
+    }
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Production Terraform: modules, remote state, multi-account AWS landscapes",
+      "priority": "required",
+      "keywords": [
+        "Terraform",
+        "modules",
+        "remote state",
+        "AWS",
+        "multi-account"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R2",
+      "text": "Systems programming in Rust",
+      "priority": "required",
+      "keywords": [
+        "Rust",
+        "systems programming"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R3",
+      "text": "Operating Kubernetes clusters with Helm",
+      "priority": "required",
+      "keywords": [
+        "Kubernetes",
+        "Helm"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R4",
+      "text": "Go for internal tooling",
+      "priority": "required",
+      "keywords": [
+        "Go",
+        "internal tooling"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R5",
+      "text": "Leading a platform team of 8+ engineers",
+      "priority": "required",
+      "keywords": [
+        "team leadership",
+        "platform team"
+      ],
+      "provable_from_repo": false,
+      "note": "Not provable from a repo: leadership."
+    },
+    {
+      "id": "R6",
+      "text": "Python",
+      "priority": "preferred",
+      "keywords": [
+        "Python"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R7",
+      "text": "Docker",
+      "priority": "preferred",
+      "keywords": [
+        "Docker"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    },
+    {
+      "id": "R8",
+      "text": "GraphQL federation",
+      "priority": "preferred",
+      "keywords": [
+        "GraphQL",
+        "federation"
+      ],
+      "provable_from_repo": true,
+      "note": ""
+    }
+  ],
+  "matches": [
+    {
+      "requirement_id": "R1",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No Terraform, remote state, or AWS multi-account evidence in the ledger.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "Terraform",
+        "AWS"
+      ]
+    },
+    {
+      "requirement_id": "R2",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No Rust or systems programming evidence; the code shown is Python.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "Rust"
+      ]
+    },
+    {
+      "requirement_id": "R3",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No Kubernetes or Helm evidence; only a Dockerfile is shown.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "Kubernetes",
+        "Helm"
+      ]
+    },
+    {
+      "requirement_id": "R4",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No Go code or internal tooling in Go appears in the ledger.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "Go"
+      ]
+    },
+    {
+      "requirement_id": "R5",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "No evidence of leading a team or platform team.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": true,
+      "missing": []
+    },
+    {
+      "requirement_id": "R6",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L1",
+        "L5",
+        "L10",
+        "L12"
+      ],
+      "rationale": "Python Kafka consumer, FastAPI endpoints, pytest suite, and a CI Python version matrix are shown.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R7",
+      "status": "SUPPORTED",
+      "ledger_ids": [
+        "L11"
+      ],
+      "rationale": "Dockerfile installs requirements and runs the FastAPI app with uvicorn.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": []
+    },
+    {
+      "requirement_id": "R8",
+      "status": "GAP",
+      "ledger_ids": [],
+      "rationale": "Only REST endpoints are shown; no GraphQL or federation evidence.",
+      "adjustments": [],
+      "user_provided": [],
+      "non_code": false,
+      "missing": [
+        "GraphQL"
+      ]
+    }
+  ]
+}
