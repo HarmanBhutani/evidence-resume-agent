@@ -17,6 +17,7 @@
       --blue:#93b4ff; --bluebg:#18264a; --blueline:#2c4380; --user:#c4b5fd; --userbg:#2a2148; --head:#010409; --quote:#2b2610; --quoteline:#5c4f17; }
   }
   * { box-sizing:border-box; }
+  [hidden] { display:none !important; }   /* hidden must win over display:flex rules */
   body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
   :focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
   header { display:flex; align-items:center; gap:10px 14px; padding:12px 20px; background:var(--head); color:#fff; flex-wrap:wrap; }
