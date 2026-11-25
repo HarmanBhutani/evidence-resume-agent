@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence-Grounded Resume Agent</title>
+<style>
+  :root {
+    --bg:#f5f6f8; --card:#fff; --ink:#18212f; --mute:#5f6b7c; --line:#e2e6ec; --soft:#f0f2f5; --field:#fff; --fieldline:#cdd4de;
+    --ok:#127a3d; --okbg:#e5f5eb; --okline:#2fa35b; --part:#8a5a00; --partbg:#fff3d1; --partline:#e0a800;
+    --gap:#b42318; --gapbg:#fde8e6; --gapline:#e5484d; --blue:#1d4ed8; --bluebg:#e8efff; --blueline:#c7d7fe;
+    --user:#6941c6; --userbg:#f1ebff; --head:#101828; --code:#0f172a; --codeink:#d0d5dd; --hit:#23407a; --quote:#fffbe6; --quoteline:#f1e3a0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0d1117; --card:#161b22; --ink:#e6edf3; --mute:#9aa6b2; --line:#2a313c; --soft:#1f2630; --field:#0d1117; --fieldline:#38414d;
+      --ok:#4ade80; --okbg:#12301f; --part:#fbbf24; --partbg:#3a2d0c; --gap:#f87171; --gapbg:#3b1416;
+      --blue:#93b4ff; --bluebg:#18264a; --blueline:#2c4380; --user:#c4b5fd; --userbg:#2a2148; --head:#010409; --quote:#2b2610; --quoteline:#5c4f17; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  :focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+  header { display:flex; align-items:center; gap:10px 14px; padding:12px 20px; background:var(--head); color:#fff; flex-wrap:wrap; }
+  header h1 { font-size:16px; margin:0; font-weight:650; }
+  .sub { color:#98a2b3; font-size:12px; }
+  .spacer { flex:1; }
+  .badge { padding:3px 9px; border-radius:999px; font-size:12px; font-weight:650; white-space:nowrap; }
+  .b-prov { background:#1f2a44; color:#c7d7fe; }
+  .b-LIVE { background:#d1fadf; color:#05603a; } .b-REPLAYED { background:#ffe7b3; color:#7a4b00; } .b-MOCK { background:#e4e7ec; color:#344054; }
+  .b-idle { background:#1f2a44; color:#98a2b3; }
+  .b-auth-on { background:#d1fadf; color:#05603a; } .b-auth-off { background:#fde8e6; color:#b42318; }
+  main { padding:16px 20px 40px; max-width:1500px; margin:0 auto; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .setup { display:grid; grid-template-columns:1fr 1.15fr; gap:14px; }
+  .stepno { display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; background:#1d4ed8; color:#fff; font-size:12px; font-weight:700; margin-right:2px; }
+  .card h2 { margin:0 0 10px; font-size:15px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .card h2 small { margin-left:auto; color:var(--mute); font-weight:400; font-size:12px; }
+  label.f { font-size:12px; font-weight:650; color:var(--mute); display:block; margin:10px 0 4px; }
+  input[type=text], input[type=search], textarea, select { width:100%; border:1px solid var(--fieldline); border-radius:8px; padding:8px 10px; font:inherit; background:var(--field); color:var(--ink); }
+  textarea { min-height:150px; font:12.5px/1.45 ui-monospace,Menlo,monospace; resize:vertical; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1; min-width:0; }
+  button { font:inherit; border:1px solid var(--fieldline); background:var(--card); color:var(--ink); padding:7px 12px; border-radius:8px; cursor:pointer; }
+  button:hover:not(:disabled) { background:var(--soft); }
+  button.primary { background:#1d4ed8; border-color:#1d4ed8; color:#fff; font-weight:650; padding:9px 18px; }
+  button.primary:hover:not(:disabled) { background:#1a43bd; }
+  button.small { padding:3px 9px; font-size:12px; }
+  button.small.primary { padding:4px 12px; }
+  button.link { border:0; background:none; color:var(--blue); padding:0; font-size:inherit; }
+  button.link:hover { background:none; text-decoration:underline; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  .hint { font-size:12px; color:var(--mute); }
+  .authors { border:1px solid var(--line); border-radius:8px; padding:6px 10px; max-height:150px; overflow:auto; }
+  .authors label { display:flex; gap:8px; align-items:center; padding:3px 0; font-size:13px; cursor:pointer; }
+  .authors .count { margin-left:auto; color:var(--mute); font-size:12px; white-space:nowrap; }
+  details.opts { margin-top:12px; border-top:1px solid var(--line); padding-top:10px; }
+  details.opts summary { cursor:pointer; font-size:13px; font-weight:650; color:var(--mute); }
+  .chk { font-size:12.5px; color:var(--mute); display:flex; gap:6px; align-items:center; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .chip-user { display:inline-flex; gap:2px; align-items:center; background:var(--userbg); color:var(--user); border-radius:999px; padding:2px 4px 2px 10px; font-size:12.5px; }
+  .chip-user button { border:0; background:none; color:inherit; padding:0 6px; font-size:14px; }
+  .runbar { display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap; }
+  #steps { display:flex; gap:6px; flex-wrap:wrap; margin:14px 0 6px; }
+  .step { font-size:12px; padding:4px 10px; border-radius:999px; background:var(--soft); color:var(--mute); }
+  .step.running { background:var(--bluebg); color:var(--blue); } .step.running::before { content:"● "; animation:pulse 1s infinite; }
+  .step.done { background:var(--okbg); color:var(--ok); } .step.done::before { content:"✓ "; }
+  @keyframes pulse { 50% { opacity:.3; } }
+  #error { display:none; background:var(--gapbg); color:var(--gap); border:1px solid var(--gapline); padding:10px 12px; border-radius:10px; margin:10px 0; white-space:pre-wrap; }
+  #error b { display:block; margin-bottom:2px; }
+  #summary { display:none; margin:14px 0; }
+  .sumgrid { display:grid; grid-template-columns:1.6fr repeat(4, 1fr); gap:14px; align-items:center; }
+  .stat .n { font-size:22px; font-weight:700; line-height:1.1; } .stat .l { font-size:12px; color:var(--mute); }
+  .fitbar { display:flex; height:12px; border-radius:6px; overflow:hidden; background:var(--soft); margin:6px 0 4px; }
+  .fitbar span { display:block; height:100%; }
+  .fitbar .s { background:var(--okline); } .fitbar .p { background:var(--partline); } .fitbar .g { background:var(--gapline); }
+  .legend { font-size:12px; color:var(--mute); display:flex; gap:10px; flex-wrap:wrap; }
+  .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; }
+  #notices { margin-top:10px; }
+  #notices summary { cursor:pointer; font-size:12.5px; color:var(--mute); margin-top:6px; }
+  .note { background:var(--quote); border:1px solid var(--quoteline); padding:6px 10px; border-radius:8px; margin-top:6px; font-size:12.5px; }
+  .note.warn { background:var(--gapbg); border-color:var(--gapline); color:var(--gap); }
+  .panels { display:grid; grid-template-columns:1fr 1.2fr 1.2fr; gap:14px; align-items:start; }
+  @media (max-width:1150px) { .panels, .setup { grid-template-columns:1fr; } .sumgrid { grid-template-columns:1fr 1fr; } .sumgrid > :first-child { grid-column:1 / -1; } }
+  .panels > *, .setup > *, .sumgrid > * { min-width:0; }      /* let long paths wrap instead of widening the grid */
+  .item, .cite, .quote, .reason { overflow-wrap:anywhere; }
+  .toolbar { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; align-items:center; }
+  .filter { font-size:12px; padding:3px 10px; border-radius:999px; }
+  .filter[aria-pressed=true] { background:var(--ink); color:var(--card); border-color:var(--ink); }
+  .filter[aria-pressed=true]:hover { background:var(--ink); }
+  .item { border:1px solid var(--line); border-radius:10px; padding:9px 11px; margin-bottom:8px; background:var(--card); }
+  .item .name { font-weight:650; } .item .sum { color:var(--mute); margin:2px 0 4px; font-size:13px; }
+  .kind { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--mute); margin-right:6px; }
+  .cite { display:inline-flex; align-items:center; gap:4px; font:11.5px ui-monospace,Menlo,monospace; background:var(--bluebg); color:var(--blue); border:1px solid var(--blueline); padding:1px 7px; border-radius:6px; margin:3px 4px 0 0; cursor:pointer; }
+  .cite:hover:not(:disabled) { background:var(--bluebg); filter:brightness(.95); }
+  .own { font:700 10px -apple-system,sans-serif; padding:0 4px; border-radius:4px; }
+  .own.mine { background:var(--okbg); color:var(--ok); } .own.mixed { background:var(--partbg); color:var(--part); } .own.not_mine { background:var(--gapbg); color:var(--gap); }
+  .st { font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; margin-right:6px; }
+  .st.SUPPORTED { background:var(--okbg); color:var(--ok); } .st.PARTIAL { background:var(--partbg); color:var(--part); } .st.GAP { background:var(--gapbg); color:var(--gap); }
+  .item.SUPPORTED { border-left:4px solid var(--okline); } .item.PARTIAL { border-left:4px solid var(--partline); }
+  .item.GAP { border-left:4px solid var(--gapline); }
+  .pri { font-size:11px; color:var(--mute); }
+  .reason { font-size:12.5px; color:var(--mute); margin-top:4px; }
+  .adj { font-size:12px; color:var(--part); margin-top:3px; } details summary.adj { cursor:pointer; }
+  .missing { font-size:12.5px; margin-top:5px; } .missing code { background:var(--gapbg); color:var(--gap); padding:0 5px; border-radius:4px; font-size:12px; }
+  .tag { font-size:11px; padding:1px 7px; border-radius:999px; font-weight:650; }
+  .tag-user { background:var(--userbg); color:var(--user); } .tag-nc { background:var(--soft); color:var(--mute); }
+  .bullet { display:flex; gap:9px; align-items:flex-start; border-left:4px solid var(--okline); }
+  .bullet.user { border-left-color:var(--user); }
+  .bullet input { margin-top:4px; }
+  .blocked-text { text-decoration:line-through; color:var(--mute); } .why { font-size:12px; color:var(--gap); }
+  .empty { color:var(--mute); font-size:13px; padding:4px 0; }
+  section.wide { margin-top:14px; }
+  details.wide > summary { cursor:pointer; font-weight:650; font-size:15px; }
+  .q { font-weight:650; }
+  .practice { margin-top:8px; display:none; }
+  .practice.open { display:block; }
+  .practice textarea { min-height:110px; font:13px/1.5 -apple-system,BlinkMacSystemFont,sans-serif; }
+  .fb { margin-top:10px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:var(--soft); }
+  .bars { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; margin:6px 0 8px; }
+  @media (max-width:700px) { .bars { grid-template-columns:1fr 1fr; } }
+  .bar .l { font-size:12px; color:var(--mute); display:flex; justify-content:space-between; }
+  .bar .t { height:6px; background:var(--line); border-radius:3px; overflow:hidden; } .bar .t span { display:block; height:100%; background:var(--blue); }
+  .fb ul { margin:4px 0 6px; padding-left:18px; } .fb h4 { margin:8px 0 0; font-size:12.5px; }
+  #drawer { position:fixed; right:0; top:0; bottom:0; width:min(600px,94vw); background:var(--card); border-left:1px solid var(--line); box-shadow:-8px 0 24px rgba(16,24,40,.2); padding:16px; display:none; overflow:auto; z-index:10; }
+  #drawer h3 { margin:0 0 6px; font:600 13px ui-monospace,Menlo,monospace; word-break:break-all; }
+  pre.src { margin:8px 0; background:var(--code); color:var(--codeink); padding:8px 0; border-radius:8px; overflow:auto; font:12px/1.5 ui-monospace,Menlo,monospace; }
+  pre.src .ln { display:block; padding:0 12px; white-space:pre; } pre.src .ln.hit { background:var(--hit); color:#fff; }
+  pre.src .n { color:#667085; display:inline-block; width:38px; user-select:none; } pre.src .ln.hit .n { color:#a5b4fc; }
+  .quote { background:var(--quote); border:1px solid var(--quoteline); padding:6px 8px; border-radius:6px; font:12px ui-monospace,Menlo,monospace; white-space:pre-wrap; }
+  .toast { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:var(--head); color:#fff; padding:8px 14px; border-radius:8px; font-size:13px; display:none; z-index:20; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Evidence-Grounded Resume Agent</h1><span class="sub">every claim links to your code · gaps are flagged, never invented</span>
+  <span class="spacer"></span>
+  <a href="learn.html" style="color:#c7d7fe;font-size:13px">Learn system design</a>
+  <span id="authBadge" class="badge b-idle" hidden></span>
+  <span id="provBadge" class="badge b-prov">provider: …</span>
+  <span id="modeBadge" class="badge b-idle">no run yet</span>
+</header>
+<main>
+  <div class="setup">
+    <section class="card" aria-labelledby="h-code">
+      <h2 id="h-code"><span class="stepno">1</span>Your code</h2>
+      <label class="f" for="repo">Repository (local folder)</label>
+      <div class="row"><input id="repo" type="text" class="grow" placeholder="/path/to/your/repo" autocomplete="off">
+        <button id="loadAuthors" type="button" title="Read the commit authors of this folder">Load</button></div>
+      <label class="f">Which commits are yours?</label>
+      <div id="authorList" class="authors hint">—</div>
+      <div id="authorHint" class="hint" style="margin-top:4px"></div>
+      <details class="opts">
+        <summary>Options and non-code items</summary>
+        <label class="f" for="provider">LLM provider</label>
+        <div class="row">
+          <select id="provider" style="width:auto">
+            <option value="">default (server setting)</option><option value="claude_cli">claude_cli (live)</option>
+            <option value="replay">replay (recorded)</option><option value="mock">mock (offline rules)</option>
+          </select>
+          <label class="chk"><input type="checkbox" id="cache" checked> use cache</label>
+          <label class="chk"><input type="checkbox" id="record"> record live run to samples/recorded/</label>
+        </div>
+        <label class="f" for="useritem">Things a repo can't prove (shown as "user-provided, unverified")</label>
+        <div class="row"><input id="useritem" type="text" class="grow" placeholder="e.g. Mentored 2 junior engineers">
+          <button id="addUser" type="button">Add</button></div>
+        <div id="userList" class="chips"></div>
+      </details>
+    </section>
+    <section class="card" aria-labelledby="h-job">
+      <h2 id="h-job"><span class="stepno">2</span>Target job</h2>
+      <label class="f" for="jdpick">Start from a sample, or paste your own</label>
+      <select id="jdpick"></select>
+      <textarea id="jd" placeholder="Paste a job description…" style="margin-top:8px" aria-label="Job description"></textarea>
+      <div class="runbar"><button id="run" class="primary">Analyze &amp; generate</button>
+        <span id="elapsed" class="hint" aria-live="polite"></span><span class="hint">⌘/Ctrl + Enter</span></div>
+    </section>
+  </div>
+
+  <div id="steps" aria-live="polite"></div>
+  <div id="error" role="alert"></div>
+
+  <section id="summary" class="card" aria-label="Run summary">
+    <div class="sumgrid">
+      <div>
+        <div class="hint" id="fitTitle"></div>
+        <div class="fitbar" id="fitBar"></div>
+        <div class="legend" id="fitLegend"></div>
+      </div>
+      <div class="stat"><div class="n" id="sLedger">0</div><div class="l">verified skills and work</div></div>
+      <div class="stat"><div class="n" id="sBullets">0</div><div class="l">bullets ready</div></div>
+      <div class="stat"><div class="n" id="sQuestions">0</div><div class="l">interview questions</div></div>
+      <div class="stat"><div class="n" id="sRejected">0</div><div class="l"><button class="link" id="goRejected">blocked or rejected</button></div></div>
+    </div>
+    <div id="notices"></div>
+  </section>
+
+  <div class="panels">
+    <section class="card panel" aria-labelledby="h-led">
+      <h2 id="h-led">1 · Evidence Ledger <small id="ledgerCount"></small></h2>
+      <div class="toolbar"><input id="ledSearch" type="search" placeholder="Filter skills…" aria-label="Filter skills" disabled></div>
+      <div id="ledger" class="empty">Run an analysis to build the ledger.</div>
+    </section>
+    <section class="card panel" aria-labelledby="h-match">
+      <h2 id="h-match">2 · Requirement Match</h2>
+      <div class="toolbar" id="matchFilters"></div>
+      <div id="match" class="empty">—</div>
+    </section>
+    <section class="card panel" aria-labelledby="h-bul">
+      <h2 id="h-bul">3 · Tailored Bullets <small id="bulletCount"></small></h2>
+      <div class="toolbar">
+        <button id="copyMd" class="small" disabled>Copy selected</button>
+        <button id="dlMd" class="small" disabled>Download .md</button>
+        <button id="dlJson" class="small" disabled>Download JSON</button>
+      </div>
+      <div id="bullets" class="empty">—</div>
+    </section>
+  </div>
+
+  <section class="card wide" aria-labelledby="h-int">
+    <h2 id="h-int">Interview practice: questions about your own code</h2>
+    <div class="hint" style="margin:-4px 0 10px">Write the answer you would give, then get feedback. Feedback is an AI opinion and can be wrong;
+      code only checks that every "worth mentioning" point quotes your cited code.
+      Feedback from <select id="fbProvider" style="width:auto;padding:2px 6px" aria-label="Feedback provider"><option value="claude_cli">claude_cli (live)</option><option value="mock">mock (simple rules)</option></select></div>
+    <div id="interview" class="empty">—</div>
+  </section>
+
+  <section class="card wide">
+    <details class="wide" id="rejectedBox"><summary>Rejected by the verifier <span class="hint" id="rejCount"></span></summary>
+      <div class="hint" style="margin:6px 0">Everything the model proposed that code refused: bad citations, untraceable claims, code that isn't yours.</div>
+      <div id="rejected" class="empty">—</div></details>
+  </section>
+</main>
+<aside id="drawer" role="dialog" aria-label="Cited source"></aside>
+<div id="toast" class="toast" role="status"></div>
+<script src="static-demo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let JOB = null, RESULT = null, USER = [], DEMO = null, CFG = null, MATCH_FILTER = "all";
+const HINTS = {
+  not_logged_in: "Open a terminal, run `claude` and sign in, or choose replay / mock under Options.",
+  cli_missing: "Install Claude Code, or choose replay / mock under Options.",
+  usage_limit: "Your Claude usage limit was reached. Try later, or use replay / mock.",
+  timeout: "The model took too long. Try again, or raise LLM_TIMEOUT.",
+  no_recording: "Replay only has recordings for the sample repo and sample jobs. Use live or mock for other inputs.",
+  input_error: "Check the repository folder and your selected commit emails.",
+};
+
+async function api(url, opts) {
+  if (window.STATIC_API) return window.STATIC_API(url, opts);   // online demo (static hosting)
+  const r = await fetch(url, opts);
+  if (!r.ok) { let d = ""; try { d = (await r.json()).detail; } catch (e) {} throw new Error(d || r.statusText); }
+  return r.json();
+}
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = "none", 1600); }
+function showError(kind, message) {
+  const e = $("error"); e.style.display = "block";
+  e.innerHTML = `<b>${esc((kind || "error").replace(/_/g, " ").toUpperCase())}</b>${esc(message)}${HINTS[kind] ? "\n" + esc(HINTS[kind]) : ""}`;
+}
+const MODEL = { mock: "mock-deterministic", replay: "recorded", mock_attack: "mock-hallucination-attack" };
+const EXPECT = { claude_cli: "LIVE", replay: "REPLAYED", mock: "MOCK", mock_attack: "MOCK" };
+function setBadges(prov, mode, note) {
+  $("provBadge").textContent = `provider: ${prov.provider} · ${prov.model}`;
+  const m = $("modeBadge"); m.className = "badge b-" + (mode || "idle");
+  m.textContent = mode ? ({ LIVE: "LIVE", REPLAYED: "REPLAYED (not live)", MOCK: "MOCK (offline rules)" }[mode]) + (note || "") : `idle · will be ${prov.expected_mode}`;
+}
+
+async function loadAuthors() {
+  const box = $("authorList"), path = $("repo").value.trim();
+  $("authorHint").textContent = "";
+  if (!path) { box.textContent = "Enter a folder first."; return; }
+  box.textContent = "Reading git history…";
+  try {
+    const { authors } = await api(`/api/authors?repo_path=${encodeURIComponent(path)}`);
+    if (path !== $("repo").value.trim()) return;
+    const isDemo = DEMO && path === DEMO.repo_path;
+    box.classList.toggle("hint", !authors.length);
+    box.innerHTML = authors.length ? authors.map(a => `<label><input type="checkbox" class="author" value="${esc(a.email)}"${isDemo && a.email === DEMO.demo_author ? " checked" : ""}>
+        <span>${esc(a.name)} <span class="hint">&lt;${esc(a.email)}&gt;</span></span><span class="count">${a.commits} commit${a.commits === 1 ? "" : "s"}</span></label>`).join("")
+      : "No git authors found, so authorship cannot be checked.";
+    $("authorHint").textContent = authors.length ? (isDemo ? "The sample repo's synthetic author is pre-selected. " : "") +
+      "Only code written under the selected emails counts. Select none to skip the check (results are labeled unchecked)." : "";
+  } catch (e) { box.textContent = "Could not read this folder: " + e.message; }
+}
+async function init() {
+  CFG = await api("/api/config"); setBadges(CFG, null);
+  DEMO = await api("/api/demo"); $("repo").value = DEMO.repo_path; loadAuthors();
+  $("loadAuthors").onclick = loadAuthors; $("repo").onchange = loadAuthors;
+  $("jdpick").innerHTML = '<option value="">— choose a sample job —</option>' + DEMO.jds.map(j => `<option value="${esc(j.id)}">${esc(j.title)}</option>`).join("");
+  $("jdpick").onchange = () => { const j = DEMO.jds.find(x => x.id === $("jdpick").value); if (j) $("jd").value = j.text; };
+  $("provider").onchange = () => { const v = $("provider").value || CFG.provider;
+    setBadges({ provider: v, model: v === CFG.provider ? CFG.model : MODEL[v] || CFG.model, expected_mode: EXPECT[v] }, null); };
+  if (!CFG.cli_found && !CFG.static) { showError("cli_missing", "Claude Code CLI not found on PATH."); $("fbProvider").value = "mock"; }
+}
+function renderUser() {
+  $("userList").innerHTML = USER.map((t, i) => `<span class="chip-user">${esc(t)}<button type="button" data-i="${i}" aria-label="Remove">×</button></span>`).join("");
+}
+$("userList").onclick = ev => { const b = ev.target.closest("button[data-i]"); if (b) { USER.splice(+b.dataset.i, 1); renderUser(); } };
+$("addUser").onclick = () => { const v = $("useritem").value.trim(); if (v) { USER.push(v); $("useritem").value = ""; renderUser(); } };
+$("useritem").onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); $("addUser").click(); } };
+
+const label = e => e.kind === "file" ? `${e.path}:${e.start_line}-${e.end_line}` : `commit ${(e.resolved_commit || e.commit || "").slice(0, 8)}`;
+function citeBtn(e) {
+  const own = { mine: "yours", mixed: "partly yours", not_mine: "not yours" }[e.authorship];
+  return `<button type="button" class="cite" data-ev='${esc(JSON.stringify(e))}' title="${esc(e.authorship_note || "Open the cited code")}">${esc(label(e))}${own ? `<span class="own ${e.authorship}">${own}</span>` : ""}</button>`;
+}
+const ownLine = e => `<div class="reason">authorship: ${!e.authorship || e.authorship === "unchecked" ? "not checked" : esc(e.authorship_note)}</div>`;
+function closeDrawer() { $("drawer").style.display = "none"; }
+document.addEventListener("keydown", ev => {
+  if (ev.key === "Escape") closeDrawer();
+  if (ev.key === "Enter" && (ev.metaKey || ev.ctrlKey) && !$("run").disabled && !ev.target.closest(".practice")) $("run").click();
+});
+document.addEventListener("click", async ev => {
+  const c = ev.target.closest(".cite");
+  if (!c) { if (!ev.target.closest("#drawer")) closeDrawer(); return; }
+  const e = JSON.parse(c.dataset.ev), d = $("drawer"); d.style.display = "block"; d.innerHTML = "Loading…";
+  const head = `<button type="button" onclick="closeDrawer()" style="float:right">close (Esc)</button>`;
+  try {
+    if (e.kind === "file") {
+      const s = await api(`/api/source?job_id=${JOB}&path=${encodeURIComponent(e.path)}&start=${e.start_line}&end=${e.end_line}`);
+      d.innerHTML = `${head}<h3>${esc(label(e))}</h3><div class="reason">verified ✓ quoted snippet found at these lines</div>${ownLine(e)}
+        <div class="quote">${esc(e.quote)}</div><pre class="src">${s.lines.map(l => `<span class="ln ${l.hit ? "hit" : ""}"><span class="n">${l.n}</span>${esc(l.text)}</span>`).join("")}</pre>`;
+    } else {
+      const s = await api(`/api/commit?job_id=${JOB}&hash=${e.resolved_commit || e.commit}`);
+      d.innerHTML = `${head}<h3>commit ${esc(s.hash)}</h3><div class="reason">verified ✓ quoted snippet found in this commit</div>${ownLine(e)}
+        <div class="quote">${esc(e.quote)}</div><pre class="src">${s.text.split("\n").map(l => `<span class="ln">${esc(l)}</span>`).join("")}</pre>`;
+    }
+    d.querySelector("button").focus();
+  } catch (err) { d.innerHTML = head + "Could not load source: " + esc(err.message); }
+});
+
+function renderSummary(r) {
+  const by = Object.fromEntries(r.matches.map(x => [x.requirement_id, x]));
+  const req = r.requirements.filter(q => q.priority === "required"), base = req.length ? req : r.requirements;
+  const n = s => base.filter(q => by[q.id].status === s).length, tot = base.length || 1;
+  $("fitTitle").textContent = `${req.length ? "Required skills" : "Requirements"} backed by ${r.authorship.checked ? "your" : "this repo's"} code: ${n("SUPPORTED")} of ${base.length}`;
+  $("fitBar").innerHTML = [["s", "SUPPORTED"], ["p", "PARTIAL"], ["g", "GAP"]].map(([c, s]) => `<span class="${c}" style="width:${100 * n(s) / tot}%" title="${s}: ${n(s)}"></span>`).join("");
+  $("fitLegend").innerHTML = `<span><i class="dot" style="background:var(--okline)"></i>${n("SUPPORTED")} supported</span><span><i class="dot" style="background:var(--partline)"></i>${n("PARTIAL")} partial</span><span><i class="dot" style="background:var(--gapline)"></i>${n("GAP")} gap</span>` +
+    (req.length && req.length < r.requirements.length ? `<span>· ${r.requirements.length - req.length} preferred not counted</span>` : "");
+  $("sLedger").textContent = r.ledger.length;
+  $("sBullets").textContent = r.bullets.filter(b => b.status === "ok").length;
+  $("sQuestions").textContent = r.interview.length;
+  $("sRejected").textContent = r.rejected.length;
+  const top = r.notices.filter(t => /^(AUTHORSHIP|REPLAYED|MOCK|CACHED)/.test(t)), rest = r.notices.filter(t => !top.includes(t));
+  $("notices").innerHTML = top.map(t => `<div class="note ${/NOT CHECKED|WARNING/.test(t) ? "warn" : ""}">${esc(t)}</div>`).join("") +
+    (rest.length ? `<details><summary>Notes about this run (${rest.length})</summary>${rest.map(t => `<div class="note">${esc(t)}</div>`).join("")}</details>` : "");
+  $("summary").style.display = "block";
+}
+function renderLedger() {
+  const q = $("ledSearch").value.trim().toLowerCase(), r = RESULT;
+  const items = r.ledger.filter(it => !q || (it.name + " " + it.summary).toLowerCase().includes(q));
+  $("ledger").className = "";
+  $("ledger").innerHTML = items.map(it => `<div class="item"><span class="kind">${esc(it.kind)}</span><span class="name">${esc(it.name)}</span>
+     ${it.summary ? `<div class="sum">${esc(it.summary)}</div>` : ""}<div>${it.evidence.map(citeBtn).join("")}</div></div>`).join("")
+    || `<div class="empty">${r.ledger.length ? "No skills match this filter." : "No verifiable items."}</div>`;
+}
+function renderMatch() {
+  const r = RESULT, by = Object.fromEntries(r.matches.map(x => [x.requirement_id, x])), led = Object.fromEntries(r.ledger.map(x => [x.id, x]));
+  const cnt = s => r.matches.filter(x => x.status === s).length;
+  $("matchFilters").innerHTML = [["all", `All ${r.matches.length}`], ["SUPPORTED", `Supported ${cnt("SUPPORTED")}`], ["PARTIAL", `Partial ${cnt("PARTIAL")}`], ["GAP", `Gap ${cnt("GAP")}`]]
+    .map(([k, t]) => `<button type="button" class="filter" data-f="${k}" aria-pressed="${MATCH_FILTER === k}">${t}</button>`).join("");
+  const reqs = r.requirements.filter(q => MATCH_FILTER === "all" || by[q.id].status === MATCH_FILTER);
+  const yours = r.authorship.checked ? "your" : "the";
+  $("match").className = "";
+  $("match").innerHTML = reqs.map(q => { const x = by[q.id];
+    return `<div class="item ${x.status}"><span class="st ${x.status}">${x.status === "GAP" ? (r.authorship.checked ? "GAP · no evidence from your work" : "GAP · not in this repo") : x.status}</span><span class="pri">${esc(q.priority)}</span>
+      ${x.non_code ? ' <span class="tag tag-nc">non-code · repos can’t prove this</span>' : ""}
+      <div style="margin-top:4px">${esc(q.text)}</div>
+      ${x.ledger_ids.map(id => led[id] ? `<div class="reason">↳ ${esc(led[id].name)} ${led[id].evidence.map(citeBtn).join("")}</div>` : "").join("")}
+      ${x.status !== "GAP" && x.rationale ? `<div class="reason">${esc(x.rationale)}</div>` : ""}
+      ${x.missing.length ? `<div class="missing">Not found in ${yours} code: ${x.missing.map(k => `<code>${esc(k)}</code>`).join(" ")}</div>` : ""}
+      ${x.adjustments.length ? `<details><summary class="adj">code changed the model's answer (${x.adjustments.length})</summary>${x.adjustments.map(a => `<div class="adj">${esc(a)}</div>`).join("")}</details>` : ""}
+      ${x.user_provided.map(t => `<div class="reason"><span class="tag tag-user">user-provided, unverified</span> ${esc(t)}</div>`).join("")}
+      ${x.status !== "SUPPORTED" ? learnLink(q.text + " " + q.keywords.join(" ")) : ""}
+      ${x.status === "GAP" ? `<div class="reason">No bullet is written for this.${q.note ? " " + esc(q.note) : ""}${x.missing.length && !x.non_code ? " To close it, build and commit something that uses it, then run again." : ""}</div>` : ""}</div>`; }).join("")
+    || '<div class="empty">Nothing with this status.</div>';
+}
+const TOPICS = [   // requirement wording -> simulator that teaches a related concept
+  [/load.?balanc|horizontal(ly)? scal|high availability|failover|health check|traffic spike/i, "load-balancing", "load balancing"],
+  [/deadlock|lock|concurren|transaction|postgres|mysql|sql\b|relational/i, "deadlock", "database deadlocks"],
+];
+function learnLink(text) {
+  const t = TOPICS.find(([re]) => re.test(text));
+  return t ? `<div class="reason">📘 <a href="learn.html#${t[1]}" target="_blank" rel="noopener">Practise the concept: ${t[2]} simulator</a>
+    (practice doesn't change this status)</div>` : "";
+}
+$("matchFilters").onclick = ev => { const b = ev.target.closest("[data-f]"); if (b) { MATCH_FILTER = b.dataset.f; renderMatch(); } };
+$("ledSearch").oninput = renderLedger;
+
+function bulletText(b) {
+  return b.origin !== "verified" ? `- ${b.text} _(${b.origin})_` : `- ${b.text}  \n  evidence: ${b.evidence.map(e => "`" + label(e) + "`").join("; ")}`;
+}
+function selectedBullets() { const ids = new Set([...document.querySelectorAll(".pick:checked")].map(x => x.value)); return RESULT.bullets.filter(b => ids.has(b.id)); }
+function markdown(list) {
+  const m = RESULT.meta, a = RESULT.authorship;
+  return [`# Tailored bullets: ${m.jd_title || "job"}`, "",
+    `_Output: ${m.mode}${m.cached ? " (cached)" : ""} · ${m.provider}/${m.model} · authorship ${a.checked ? "checked for " + a.identities.join(", ") : "NOT CHECKED"}_`, "",
+    ...list.map(bulletText), ""].join("\n");
+}
+function renderBullets() {
+  const r = RESULT, ok = r.bullets.filter(b => b.status === "ok"), bl = r.bullets.filter(b => b.status === "blocked");
+  $("bulletCount").textContent = `${ok.length} ready · ${bl.length} blocked`;
+  $("bullets").className = "";
+  $("bullets").innerHTML = (ok.map(b => `<div class="item bullet ${b.origin !== "verified" ? "user" : ""}">
+      <input type="checkbox" class="pick" value="${esc(b.id)}" checked aria-label="Include this bullet in the export">
+      <div class="grow">${esc(b.text)} ${b.origin !== "verified" ? `<span class="tag tag-user">${esc(b.origin)}</span>` : ""}
+        <div>${b.evidence.map(citeBtn).join("")}</div></div>
+      <button type="button" class="small copy1" data-id="${esc(b.id)}" title="Copy this bullet">Copy</button></div>`).join("") || '<div class="empty">No bullets passed verification.</div>')
+    + (bl.length ? `<div class="reason">${bl.length} generated bullet(s) were blocked by the verifier. <button type="button" class="link" onclick="openRejected()">See why</button></div>` : "");
+}
+$("bullets").onclick = ev => { const b = ev.target.closest(".copy1"); if (b) { navigator.clipboard.writeText(RESULT.bullets.find(x => x.id === b.dataset.id).text); toast("Bullet copied"); } };
+function renderInterview() {
+  const r = RESULT;
+  $("interview").className = "";
+  $("interview").innerHTML = r.interview.map((q, i) => `<div class="item"><div class="q">${i + 1}. ${esc(q.question)}</div>
+      ${q.why ? `<div class="reason">${esc(q.why)}</div>` : ""}<div>${q.evidence.map(citeBtn).join("")}</div>
+      <button type="button" class="small practiceBtn" data-i="${i}" style="margin-top:8px" aria-expanded="false" aria-controls="pr${i}">Practice answer</button>
+      <div class="practice" id="pr${i}"><textarea id="ans${i}" placeholder="Type the answer you would give in the interview…" maxlength="4000" aria-label="Your answer"></textarea>
+        <div class="row" style="margin-top:6px"><button type="button" class="small primary fbBtn" data-i="${i}">Get feedback</button><span class="hint" id="fbs${i}" aria-live="polite"></span></div>
+        <div id="fb${i}"></div></div></div>`).join("") || '<div class="empty">None.</div>';
+}
+const DIM = { correctness: "Correctness", tradeoffs: "Trade-offs", failure_modes: "Failure cases", clarity: "Clarity" };
+$("interview").onclick = async ev => {
+  const p = ev.target.closest(".practiceBtn");
+  if (p) { const box = $("pr" + p.dataset.i), open = !box.classList.contains("open"); box.classList.toggle("open", open); p.setAttribute("aria-expanded", open); if (open) $("ans" + p.dataset.i).focus(); return; }
+  const f = ev.target.closest(".fbBtn"); if (!f) return;
+  const i = +f.dataset.i, out = $("fb" + i), st = $("fbs" + i);
+  f.disabled = true; st.textContent = $("fbProvider").value === "claude_cli" ? "Asking Claude… (10–30 s)" : "Scoring…"; out.innerHTML = "";
+  try {
+    const fb = await api("/api/feedback", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ job_id: JOB, question_index: i, answer: $("ans" + i).value, provider: $("fbProvider").value }) });
+    st.textContent = "";
+    out.innerHTML = `<div class="fb"><div class="hint">Feedback · ${esc(fb.mode)}${fb.cached ? " (cached)" : ""} · ${esc(fb.provider)}/${esc(fb.model)} · an opinion, check it against your code</div>
+      <div class="bars">${Object.entries(fb.scores).map(([k, v]) => `<div class="bar"><div class="l"><span>${DIM[k] || esc(k)}</span><b>${v}/5</b></div><div class="t"><span style="width:${v * 20}%"></span></div></div>`).join("")}</div>
+      ${fb.strengths.length ? `<h4>What worked</h4><ul>${fb.strengths.map(s => `<li>${esc(s)}</li>`).join("")}</ul>` : ""}
+      ${fb.improve.length ? `<h4>Improve</h4><ul>${fb.improve.map(s => `<li>${esc(s)}</li>`).join("")}</ul>` : ""}
+      ${fb.missed.length ? `<h4>From your code, worth mentioning</h4><ul>${fb.missed.map(m => `<li>${esc(m.point)}<div class="quote" style="margin-top:3px">${esc(m.quote)}</div></li>`).join("")}</ul>` : ""}
+      ${fb.dropped ? `<div class="hint">${fb.dropped} code point(s) removed: their quote was not in your cited code.</div>` : ""}
+      ${fb.follow_up ? `<h4>Likely follow-up</h4><div>${esc(fb.follow_up)}</div>` : ""}</div>`;
+  } catch (e) { st.textContent = ""; out.innerHTML = `<div class="why">${esc(e.message)}</div>`; }
+  f.disabled = false;
+};
+function openRejected() { const d = $("rejectedBox"); d.open = true; d.scrollIntoView({ behavior: "smooth" }); }
+$("goRejected").onclick = openRejected;
+
+function render(r) {
+  RESULT = r; const m = r.meta;
+  setBadges({ provider: m.provider, model: m.model }, m.mode, m.cached ? " · cached" : "");
+  const ab = $("authBadge"); ab.hidden = false;
+  ab.className = "badge " + (r.authorship.checked ? "b-auth-on" : "b-auth-off");
+  ab.textContent = r.authorship.checked ? "authorship checked" : "authorship NOT checked";
+  $("fbProvider").value = CFG.cli_found ? "claude_cli" : "mock";   // feedback is a new question, so replay can't serve it
+  $("ledgerCount").textContent = `${r.ledger.length} verified`;
+  $("ledSearch").disabled = false; $("ledSearch").value = ""; MATCH_FILTER = "all";
+  renderSummary(r); renderLedger(); renderMatch(); renderBullets(); renderInterview();
+  $("rejCount").textContent = `(${r.rejected.length})`;
+  $("rejected").className = "";
+  $("rejected").innerHTML = r.rejected.map(x => `<div class="item" style="border-left:4px solid var(--gapline)"><span class="kind">${esc(x.what)}</span><span class="blocked-text">${esc(x.text)}</span>${x.reasons.map(t => `<div class="why">✗ ${esc(t)}</div>`).join("")}</div>`).join("") || '<div class="empty">Nothing was rejected in this run.</div>';
+  $("copyMd").disabled = $("dlMd").disabled = $("dlJson").disabled = false;
+  $("summary").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function stepsUI(steps) {
+  $("steps").innerHTML = Object.entries(steps).map(([k, v]) => `<span class="step ${v.state}" title="${esc(v.detail)}">${esc(k.replace("_", " "))}${v.detail && v.state !== "pending" ? " · " + esc(v.detail) : ""}</span>`).join("");
+}
+$("run").onclick = async () => {
+  $("error").style.display = "none";
+  if (!$("jd").value.trim()) { showError("missing_job", "Paste a job description or choose a sample job first."); $("jd").focus(); return; }
+  $("run").disabled = true; $("run").textContent = "Analyzing…";
+  const t0 = Date.now(), tick = setInterval(() => $("elapsed").textContent = `${Math.round((Date.now() - t0) / 1000)} s`, 500);
+  try {
+    const { job_id } = await api("/api/run", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ repo_path: $("repo").value.trim(), jd_text: $("jd").value, user_items: USER,
+        authors: [...document.querySelectorAll(".author:checked")].map(x => x.value), provider: $("provider").value || null,
+        record: $("record").checked, use_cache: $("cache").checked }) });
+    while (true) {
+      const j = await api(`/api/jobs/${job_id}`); stepsUI(j.steps);
+      if (j.status === "done") { JOB = job_id; render(j.result); break; }
+      if (j.status === "error") { showError(j.error.kind, j.error.message); break; }
+      await new Promise(r => setTimeout(r, 600));
+    }
+  } catch (e) { showError("error", e.message); }
+  clearInterval(tick); $("run").disabled = false; $("run").textContent = "Analyze & generate";
+};
+$("copyMd").onclick = () => { const l = selectedBullets(); if (!l.length) return toast("Select at least one bullet"); navigator.clipboard.writeText(markdown(l)); toast(`Copied ${l.length} bullet${l.length === 1 ? "" : "s"}`); };
+function download(name, text, type) { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
+$("dlMd").onclick = () => { const l = selectedBullets(); if (!l.length) return toast("Select at least one bullet"); download("resume_bullets.md", markdown(l), "text/markdown"); };
+$("dlJson").onclick = () => download("resume_agent_result.json", JSON.stringify(RESULT, null, 2), "application/json");
+init().catch(e => showError("error", "Init failed: " + e.message));
+</script>
+</body>
+</html>

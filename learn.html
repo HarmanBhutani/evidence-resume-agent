@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn system design · Evidence-Grounded Resume Agent</title>
+<style>
+  :root {
+    --bg:#f5f6f8; --card:#fff; --ink:#18212f; --mute:#5f6b7c; --line:#e2e6ec; --soft:#f0f2f5; --field:#fff; --fieldline:#cdd4de;
+    --ok:#127a3d; --okbg:#e5f5eb; --okline:#2fa35b; --part:#8a5a00; --partbg:#fff3d1; --partline:#e0a800;
+    --gap:#b42318; --gapbg:#fde8e6; --gapline:#e5484d; --blue:#1d4ed8; --bluebg:#e8efff; --blueline:#c7d7fe; --head:#101828;
+    --node:#ffffff; --nodeline:#98a2b3; --edge:#c3cad5; --slot:#e4e7ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0d1117; --card:#161b22; --ink:#e6edf3; --mute:#9aa6b2; --line:#2a313c; --soft:#1f2630; --field:#0d1117; --fieldline:#38414d;
+      --ok:#4ade80; --okbg:#12301f; --part:#fbbf24; --partbg:#3a2d0c; --gap:#f87171; --gapbg:#3b1416;
+      --blue:#93b4ff; --bluebg:#18264a; --blueline:#2c4380; --head:#010409; --node:#1f2630; --nodeline:#4b5563; --edge:#38414d; --slot:#2a313c; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  :focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+  header { display:flex; align-items:center; gap:10px 14px; padding:12px 20px; background:var(--head); color:#fff; flex-wrap:wrap; }
+  header h1 { font-size:16px; margin:0; font-weight:650; }
+  header a { color:#c7d7fe; font-size:13px; }
+  .sub { color:#98a2b3; font-size:12px; } .spacer { flex:1; }
+  main { padding:16px 20px 40px; max-width:1200px; margin:0 auto; }
+  .tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .tabs a { padding:7px 14px; border-radius:999px; border:1px solid var(--fieldline); color:var(--ink); text-decoration:none; font-weight:600; font-size:13px; background:var(--card); }
+  .tabs a[aria-current=page] { background:var(--ink); color:var(--card); border-color:var(--ink); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:14px; }
+  .card h2 { margin:0 0 6px; font-size:18px; } .card h3 { margin:0 0 8px; font-size:14px; }
+  .lead { color:var(--mute); margin:0; max-width:900px; }
+  .grid { display:grid; grid-template-columns:2fr 1fr; gap:14px; }
+  .grid > * { min-width:0; }
+  @media (max-width:900px) { .grid { grid-template-columns:1fr; } }
+  .controls { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-bottom:10px; }
+  .controls label { font-size:12.5px; color:var(--mute); display:flex; gap:6px; align-items:center; }
+  select, input[type=range] { font:inherit; color:var(--ink); }
+  select { border:1px solid var(--fieldline); border-radius:8px; padding:4px 8px; background:var(--field); }
+  .seg { display:inline-flex; border:1px solid var(--fieldline); border-radius:8px; overflow:hidden; }
+  .seg button { border:0; border-radius:0; padding:5px 10px; }
+  .seg button[aria-pressed=true] { background:var(--ink); color:var(--card); }
+  button { font:inherit; border:1px solid var(--fieldline); background:var(--card); color:var(--ink); padding:5px 12px; border-radius:8px; cursor:pointer; }
+  button:hover:not(:disabled) { filter:brightness(.96); }
+  button.primary { background:#1d4ed8; border-color:#1d4ed8; color:#fff; font-weight:650; }
+  button.danger { border-color:var(--gapline); color:var(--gap); }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  svg { width:100%; height:auto; display:block; background:var(--soft); border-radius:10px; }
+  svg text { font:12px -apple-system,BlinkMacSystemFont,sans-serif; fill:var(--ink); }
+  svg .small { font-size:10.5px; fill:var(--mute); }
+  .stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .stat { background:var(--soft); border-radius:10px; padding:8px 10px; }
+  .stat .n { font-size:20px; font-weight:700; line-height:1.15; } .stat .l { font-size:12px; color:var(--mute); }
+  .stat.bad .n { color:var(--gap); }
+  .log { font-size:12.5px; max-height:170px; overflow:auto; margin-top:10px; padding-left:16px; color:var(--mute); }
+  .log li { margin-bottom:3px; }
+  .predict { border-left:4px solid var(--blue); }
+  .opts { display:flex; flex-direction:column; gap:6px; margin:8px 0; }
+  .opts button { text-align:left; }
+  .opts button.right { border-color:var(--okline); background:var(--okbg); color:var(--ok); }
+  .opts button.wrong { border-color:var(--gapline); background:var(--gapbg); color:var(--gap); }
+  .verdict { font-size:13px; margin-top:6px; }
+  table { border-collapse:collapse; width:100%; font-size:13px; margin-top:8px; }
+  th, td { text-align:left; padding:5px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--mute); font-weight:600; font-size:12px; }
+  td.best { color:var(--ok); font-weight:700; }
+  ul.try { margin:6px 0 0; padding-left:18px; } ul.try li { margin-bottom:4px; }
+  .say { background:var(--bluebg); border:1px solid var(--blueline); border-radius:8px; padding:8px 10px; margin-top:10px; font-size:13.5px; }
+  .hint { font-size:12px; color:var(--mute); }
+  .callout { background:#fef3c7; border:1px solid #f59e0b; color:#78350f; border-radius:8px; padding:8px 10px; margin-bottom:8px; font-size:13px; }
+  footer { color:var(--mute); font-size:12px; max-width:1200px; margin:0 auto; padding:0 20px 30px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Learn system design</h1><span class="sub">break it, watch what happens, explain it</span>
+  <span class="spacer"></span>
+  <a href="index.html">← Back to resume analysis</a>
+</header>
+<main>
+  <nav class="tabs" aria-label="Simulations">
+    <a href="#load-balancing" data-tab="lb">Load balancing</a>
+    <a href="#deadlock" data-tab="dl">Database deadlocks</a>
+  </nav>
+
+  <!-- ======================= LOAD BALANCING ======================= -->
+  <div id="tab-lb" hidden>
+    <section class="card">
+      <h2>Load balancing: who gets the next request?</h2>
+      <p class="lead">A load balancer spreads requests across servers. Which server it picks matters most when servers are not equal:
+        one is slower, or one has just crashed. Each dot below is a request. Servers handle 4 at a time and queue the rest.</p>
+    </section>
+    <div class="grid">
+      <section class="card">
+        <div class="controls">
+          <span class="seg" role="group" aria-label="Algorithm" id="lbAlgo">
+            <button data-v="round_robin" aria-pressed="true">Round robin</button>
+            <button data-v="least_connections" aria-pressed="false">Least connections</button>
+            <button data-v="random" aria-pressed="false">Random</button>
+          </span>
+          <label>Traffic <input type="range" id="lbRps" min="10" max="150" step="10" value="60"> <b id="lbRpsV">60</b> req/s</label>
+          <label><input type="checkbox" id="lbSlow"> Server 2 is 4× slower</label>
+          <label>Health check every <select id="lbHealth"><option>1</option><option selected>2</option><option>5</option><option>10</option></select> s</label>
+        </div>
+        <div class="controls">
+          <button class="danger" id="lbCrash">Crash server 2</button>
+          <button id="lbReset">Reset</button>
+          <button id="lbPause">Pause</button>
+          <span class="seg" role="group" aria-label="Speed" id="lbSpeed">
+            <button data-v="0.5" aria-pressed="false">½×</button><button data-v="1" aria-pressed="true">1×</button><button data-v="3" aria-pressed="false">3×</button>
+          </span>
+          <span class="hint" id="lbClock"></span>
+        </div>
+        <svg id="lbSvg" viewBox="0 0 760 300" role="img" aria-label="Requests flowing from users through a load balancer to three servers"></svg>
+        <div class="hint" style="margin-top:6px">
+          <span style="color:#2563eb">●</span> handled now &nbsp; <span style="color:#7c3aed">●</span> queued &nbsp;
+          <span style="color:#dc2626">●</span> lost (server down) &nbsp; <span style="color:#d97706">●</span> rejected (queue full)</div>
+      </section>
+      <section class="card">
+        <h3>Last 300 requests</h3>
+        <div class="stats">
+          <div class="stat"><div class="n" id="lbP50">–</div><div class="l">median latency</div></div>
+          <div class="stat"><div class="n" id="lbP95">–</div><div class="l">p95 latency (slowest 5%)</div></div>
+          <div class="stat" id="lbFailBox"><div class="n" id="lbFail">0</div><div class="l">lost or rejected (total)</div></div>
+          <div class="stat"><div class="n" id="lbDone">0</div><div class="l">completed (total)</div></div>
+        </div>
+        <ol class="log" id="lbLog" aria-live="polite"></ol>
+      </section>
+    </div>
+    <div class="grid">
+      <section class="card predict">
+        <h3>Predict first</h3>
+        <div id="lbQ"></div>
+        <button class="primary" id="lbCompare" style="margin-top:6px">Compare all three (30 simulated seconds each)</button>
+        <div id="lbTable"></div>
+      </section>
+      <section class="card">
+        <h3>Try this</h3>
+        <ul class="try">
+          <li>Tick <b>Server 2 is 4× slower</b> on round robin and watch its queue fill. Switch to least connections.</li>
+          <li>Crash server 2 with the health check at 10 s, then reset and try 1 s. Count the lost requests.</li>
+          <li>Crash server 2 on <b>least connections</b>. A dead server finishes nothing, so it always looks idle and keeps
+            winning the pick until the health check removes it. This is sometimes called a "black hole".</li>
+          <li>Push traffic to 150 req/s: no algorithm helps when total capacity is too small.</li>
+        </ul>
+        <div class="say"><b>Say it in an interview:</b> "Round robin is fine when servers are identical. When they aren't,
+          least connections sends work where there is spare capacity. Either way, health checks decide how long a dead
+          server keeps receiving traffic, so I'd keep them frequent and add retries for idempotent requests."</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ======================= DEADLOCKS ======================= -->
+  <div id="tab-dl" hidden>
+    <section class="card">
+      <h2>Database deadlocks: two transfers, two rows, nobody moves</h2>
+      <p class="lead">A money transfer locks the row it takes money from, then the row it pays into. If transfer A→B holds A
+        while transfer B→A holds B, each waits for the other forever. The database notices the cycle, aborts one
+        transfer, and the app retries it. Locking rows in a fixed order makes the cycle impossible.</p>
+    </section>
+    <div class="grid">
+      <section class="card">
+        <div class="controls">
+          <span class="seg" role="group" aria-label="Scenario" id="dlMode">
+            <button data-v="classic" aria-pressed="true">Two transfers</button>
+            <button data-v="busy" aria-pressed="false">Busy bank (4 accounts)</button>
+          </span>
+          <span class="seg" role="group" aria-label="Lock order" id="dlOrder">
+            <button data-v="as_written" aria-pressed="true">Lock "from" first</button>
+            <button data-v="sorted" aria-pressed="false">Lock lowest id first</button>
+          </span>
+        </div>
+        <div class="controls">
+          <label>Deadlock check every <select id="dlDetect"><option>0.5</option><option selected>1</option><option>2</option><option>5</option></select> s</label>
+          <label id="dlRateBox" hidden>Transfers <input type="range" id="dlRate" min="1" max="8" value="3"> <b id="dlRateV">3</b>/s</label>
+          <button id="dlReset">Reset</button>
+          <button id="dlPause">Pause</button>
+          <span class="seg" role="group" aria-label="Speed" id="dlSpeed">
+            <button data-v="0.25" aria-pressed="true">¼×</button><button data-v="1" aria-pressed="false">1×</button><button data-v="3" aria-pressed="false">3×</button>
+          </span>
+          <span class="hint" id="dlClock"></span>
+        </div>
+        <div id="dlNote" class="callout" role="status" hidden><b>Paused: each transfer holds the row the other needs.</b>
+          Neither can move. Press <b>Resume</b> to let the deadlock check run.</div>
+        <svg id="dlSvg" viewBox="0 0 760 300" role="img" aria-label="Account rows, the transfers holding them and the transfers waiting for them"></svg>
+        <div class="hint" style="margin-top:6px"><span style="color:#16a34a">━</span> holds the lock &nbsp;
+          <span style="color:#dc2626">╍</span> waits for the lock &nbsp; red ring: chosen to be aborted</div>
+      </section>
+      <section class="card">
+        <h3>So far</h3>
+        <div class="stats">
+          <div class="stat"><div class="n" id="dlDone">0</div><div class="l">transfers committed</div></div>
+          <div class="stat" id="dlDeadBox"><div class="n" id="dlDead">0</div><div class="l">deadlocks (one transfer aborted each)</div></div>
+          <div class="stat"><div class="n" id="dlWait">–</div><div class="l">average time waiting for locks</div></div>
+          <div class="stat"><div class="n" id="dlStuck">0</div><div class="l">waiting right now</div></div>
+        </div>
+        <ol class="log" id="dlLog" aria-live="polite"></ol>
+      </section>
+    </div>
+    <div class="grid">
+      <section class="card predict">
+        <h3>Predict first</h3>
+        <div id="dlQ"></div>
+        <button class="primary" id="dlCompare" style="margin-top:6px">Compare both lock orders (60 simulated seconds, busy bank)</button>
+        <div id="dlTable"></div>
+      </section>
+      <section class="card">
+        <h3>Try this</h3>
+        <ul class="try">
+          <li>Watch the two transfers: each grabs its first row, then waits on the other's. The check finds the loop and aborts the younger one.</li>
+          <li>Switch to <b>lock lowest id first</b>: B→A now asks for A first and simply waits its turn. No loop can form.</li>
+          <li>In the busy bank, set the check to 5 s. Rows stay frozen between checks and the waiting count climbs.</li>
+        </ul>
+        <div class="say"><b>Say it in an interview:</b> "Deadlocks come from taking the same locks in different orders.
+          I lock rows in a consistent order, for example <code>SELECT … FOR UPDATE ORDER BY id</code>, keep transactions short,
+          and still retry with a small back-off on a deadlock error, because the database can abort any transaction."</div>
+      </section>
+    </div>
+  </div>
+</main>
+<footer>
+  These are simplified models (random arrivals, fixed service times, 1 ms steps) chosen to make behaviour visible, not to
+  match any real product. Results use a fixed random seed, so the same settings give the same numbers.
+  Practising here never changes a requirement's status in your resume analysis. For many more topics, see the
+  <a href="https://sysdesign.simuveda.in/lab/" target="_blank" rel="noopener noreferrer">SimuVeda System Design Lab</a> (external site, not affiliated).
+</footer>
+<script src="sims.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ms = v => v >= 1000 ? (v / 1000).toFixed(1) + " s" : Math.round(v) + " ms";
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function seg(id, onChange) {
+  const g = $(id);
+  g.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+    g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); onChange(b.dataset.v); });
+  return () => g.querySelector("[aria-pressed=true]").dataset.v;
+}
+function setSeg(id, v) { $(id).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x.dataset.v === v)); }
+function quiz(boxId, question, options, rightIndex, explain) {
+  const box = $(boxId);
+  box.innerHTML = `<div>${question}</div><div class="opts">${options.map((o, i) => `<button data-i="${i}">${o}</button>`).join("")}</div><div class="verdict" aria-live="polite"></div>`;
+  box.querySelector(".opts").onclick = e => { const b = e.target.closest("button"); if (!b) return;
+    box.querySelectorAll(".opts button").forEach(x => { x.disabled = true; x.className = +x.dataset.i === rightIndex ? "right" : (x === b ? "wrong" : ""); });
+    box.querySelector(".verdict").innerHTML = (+b.dataset.i === rightIndex ? "<b>Right.</b> " : "<b>Not quite.</b> ") + explain; };
+}
+
+/* ---------- animation loop shared by both simulations ---------- */
+let active = null, last = 0;
+function frame(now) {
+  if (active && !active.paused) { active.sim.advance(Math.min(200, Math.round((now - last) * active.speed)) || 0); active.draw(); }
+  last = now; requestAnimationFrame(frame);
+}
+requestAnimationFrame(t => { last = t; frame(t); });
+
+/* ---------- load balancing ---------- */
+const LB = { speed: 1, paused: false };
+const lbAlgo = seg("lbAlgo", v => { LB.sim.o.algo = v; });
+seg("lbSpeed", v => LB.speed = +v);
+function lbOptions() { return { algo: lbAlgo(), rps: +$("lbRps").value, slowServer: $("lbSlow").checked ? 1 : -1, healthEveryS: +$("lbHealth").value, seed: 7 }; }
+function lbReset() { LB.sim = new Sims.LoadBalancerSim(lbOptions()); $("lbCrash").disabled = false; LB.draw(); }
+$("lbRps").oninput = () => { $("lbRpsV").textContent = $("lbRps").value; LB.sim.o.rps = +$("lbRps").value; };
+$("lbSlow").onchange = () => { LB.sim.o.slowServer = $("lbSlow").checked ? 1 : -1; };
+$("lbHealth").onchange = () => { const s = LB.sim; s.o.healthEveryS = +$("lbHealth").value; s.nextHealth = s.t + s.o.healthEveryS * 1000; };
+$("lbCrash").onclick = () => { LB.sim.o.crashServer = 1; LB.sim.o.crashAtS = LB.sim.t / 1000; $("lbCrash").disabled = true; };
+$("lbReset").onclick = lbReset;
+$("lbPause").onclick = () => { LB.paused = !LB.paused; $("lbPause").textContent = LB.paused ? "Resume" : "Pause"; };
+LB.draw = function () {
+  const s = LB.sim, t = s.t, sv = $("lbSvg");
+  const serverY = i => 25 + i * 90, LBX = 300, LBY = 150, SX = 500;
+  const colors = { served: "#2563eb", queued: "#7c3aed", failed: "#dc2626", rejected: "#d97706" };
+  let g = "";
+  for (let i = 0; i < 3; i++) g += `<line x1="${LBX + 60}" y1="${LBY}" x2="${SX}" y2="${serverY(i) + 35}" stroke="${cssv("--edge")}" stroke-width="2"/>`;
+  g += `<line x1="95" y1="${LBY}" x2="${LBX - 60}" y2="${LBY}" stroke="${cssv("--edge")}" stroke-width="2"/>`;
+  g += `<circle cx="60" cy="${LBY}" r="34" fill="${cssv("--node")}" stroke="${cssv("--nodeline")}"/><text x="60" y="${LBY + 4}" text-anchor="middle">Users</text>`;
+  g += `<rect x="${LBX - 60}" y="${LBY - 30}" width="120" height="60" rx="10" fill="${cssv("--node")}" stroke="${cssv("--nodeline")}"/>
+        <text x="${LBX}" y="${LBY - 3}" text-anchor="middle">Load balancer</text><text class="small" x="${LBX}" y="${LBY + 14}" text-anchor="middle">${esc(s.o.algo.replace("_", " "))}</text>`;
+  s.servers.forEach((sr, i) => {
+    const y = serverY(i), slow = s.o.slowServer === i;
+    const state = sr.markedDown ? "removed by health check" : sr.crashed ? "crashed (not noticed yet)" : slow ? "healthy, 4× slower" : "healthy";
+    const stroke = sr.crashed ? "#dc2626" : slow ? "#d97706" : cssv("--nodeline");
+    g += `<rect x="${SX}" y="${y}" width="240" height="70" rx="10" fill="${cssv("--node")}" stroke="${stroke}" stroke-width="${sr.crashed || slow ? 2 : 1}" ${sr.markedDown ? 'opacity=".55"' : ""}/>
+      <text x="${SX + 12}" y="${y + 20}">Server ${i + 1}</text><text class="small" x="${SX + 75}" y="${y + 20}">${state}</text>`;
+    for (let k = 0; k < s.o.concurrency; k++)
+      g += `<rect x="${SX + 12 + k * 18}" y="${y + 32}" width="14" height="14" rx="3" fill="${k < sr.active.length ? "#2563eb" : cssv("--slot")}"/>`;
+    const qw = Math.min(1, sr.queue.length / s.o.queueLimit) * 110;
+    g += `<text class="small" x="${SX + 92}" y="${y + 43}">queue</text><rect x="${SX + 125}" y="${y + 33}" width="110" height="12" rx="3" fill="${cssv("--slot")}"/>
+      <rect x="${SX + 125}" y="${y + 33}" width="${qw}" height="12" rx="3" fill="${sr.queue.length > s.o.queueLimit * 0.7 ? "#dc2626" : "#7c3aed"}"/>
+      <text class="small" x="${SX + 12}" y="${y + 62}">served ${sr.served} · lost ${sr.failed}</text>`;
+  });
+  for (const ev of s.events) {                        // each dot: 150 ms to the balancer, 350 ms to the server
+    const age = t - ev.t; if (age < 0 || age > 500) continue;
+    let x, y;
+    if (age < 150) { const k = age / 150; x = 95 + k * (LBX - 60 - 95); y = LBY; }
+    else { const k = (age - 150) / 350; x = LBX + 60 + k * (SX - LBX - 60); y = LBY + k * (serverY(ev.server) + 35 - LBY); }
+    g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${colors[ev.kind]}"/>`;
+  }
+  sv.innerHTML = g;
+  const recent = s.latencies.slice(-300);
+  $("lbP50").textContent = recent.length ? ms(Sims.pct(recent, 0.5)) : "–";
+  $("lbP95").textContent = recent.length ? ms(Sims.pct(recent, 0.95)) : "–";
+  $("lbFail").textContent = s.failed + s.rejected; $("lbFailBox").classList.toggle("bad", s.failed + s.rejected > 0);
+  $("lbDone").textContent = s.done;
+  $("lbClock").textContent = `simulated ${(t / 1000).toFixed(1)} s`;
+  const logHtml = s.log.map(l => `<li>${(l.t / 1000).toFixed(1)} s: ${esc(l.text)}</li>`).join("") || "<li>Nothing unusual yet.</li>";
+  if ($("lbLog")._h !== logHtml) $("lbLog").innerHTML = $("lbLog")._h = logHtml;
+};
+quiz("lbQ", "Server 2 is 4× slower than the others. Which algorithm keeps the slowest 5% of requests (p95) fastest?",
+  ["Round robin", "Least connections", "Random", "All about the same"], 1,
+  "Round robin and random keep sending server 2 its full share, so its queue grows. Least connections sees the queue and sends new work elsewhere.");
+$("lbCompare").onclick = () => {
+  const base = lbOptions(); base.slowServer = 1;
+  const crash = { crashServer: 1, crashAtS: 5.5 };   // not on a health-check boundary
+  const algos = [["round_robin", "Round robin"], ["least_connections", "Least connections"], ["random", "Random"]];
+  const rows = algos.map(([a, name]) => ({ name, slow: Sims.LoadBalancerSim.run({ ...base, algo: a }, 30),
+                                           crash: Sims.LoadBalancerSim.run({ ...base, slowServer: -1, ...crash, algo: a }, 30) }));
+  const best = (f, lowIsGood = true) => { const v = rows.map(f); return lowIsGood ? Math.min(...v) : Math.max(...v); };
+  const cell = (v, b, txt) => `<td class="${v === b ? "best" : ""}">${txt}</td>`;
+  const b1 = best(r => r.slow.p95), b2 = best(r => r.slow.rejected + r.slow.failed), b3 = best(r => r.crash.failed);
+  $("lbTable").innerHTML = `<table><thead><tr><th></th><th>p95, server 2 slow</th><th>rejected, server 2 slow</th><th>lost, server 2 crashes at 5.5 s</th></tr></thead><tbody>
+    ${rows.map(r => `<tr><td>${r.name}</td>${cell(r.slow.p95, b1, ms(r.slow.p95))}${cell(r.slow.rejected + r.slow.failed, b2, r.slow.rejected + r.slow.failed)}${cell(r.crash.failed, b3, r.crash.failed)}</tr>`).join("")}
+    </tbody></table><div class="hint" style="margin-top:4px">${base.rps} req/s, health check every ${base.healthEveryS} s. Green = best in the column.
+    Least connections wins on a slow server but loses more requests after a crash: the dead server looks idle.</div>`;
+};
+
+/* ---------- deadlocks ---------- */
+const DL = { speed: 0.25, paused: false, mode: "classic" };
+const dlOrder = seg("dlOrder", () => dlReset());
+seg("dlMode", v => { DL.mode = v; $("dlRateBox").hidden = v !== "busy"; DL.speed = v === "busy" ? 1 : 0.25; setSeg("dlSpeed", String(DL.speed)); dlReset(); });
+seg("dlSpeed", v => DL.speed = +v);
+function dlReset() {
+  const common = { order: dlOrder(), detectEveryS: +$("dlDetect").value, seed: 3 };
+  DL.sim = DL.mode === "classic"
+    ? new Sims.DeadlockSim({ ...common, accounts: 2, rate: 0, script: [{ at: 0.2, from: "A", to: "B" }, { at: 0.2, from: "B", to: "A" },
+                                                                      { at: 3, from: "A", to: "B" }, { at: 3, from: "B", to: "A" }] })
+    : new Sims.DeadlockSim({ ...common, accounts: 4, rate: +$("dlRate").value });
+  DL.stuckShown = false; DL.paused = false; $("dlPause").textContent = "Pause";
+  DL.draw();
+}
+$("dlDetect").onchange = dlReset;
+$("dlRate").oninput = () => { $("dlRateV").textContent = $("dlRate").value; dlReset(); };
+$("dlReset").onclick = dlReset;
+$("dlPause").onclick = () => { DL.paused = !DL.paused; $("dlPause").textContent = DL.paused ? "Resume" : "Pause"; };
+DL.draw = function () {
+  const s = DL.sim, t = s.t, names = s.names, n = names.length;
+  if (DL.mode === "classic" && !DL.stuckShown && s.findCycles().length) {   // stop on the interesting moment
+    DL.stuckShown = true; DL.paused = true; $("dlPause").textContent = "Resume";
+  }
+  const stuckNote = DL.paused && DL.stuckShown && s.findCycles().length;
+  const rowX = i => 380 + (i - (n - 1) / 2) * 170, rowY = 30;
+  const shown = s.txs.slice(0, 8), txX = i => 380 + (i - (shown.length - 1) / 2) * 90, txY = 220;
+  const flash = s.lastCycle && t - s.lastCycle.t < 900 ? s.lastCycle.ids : [];
+  let g = `<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker></defs>`;
+  shown.forEach((tx, i) => {
+    tx.order.forEach(row => {
+      if (s.locks[row] === tx.id) g += `<line x1="${rowX(names.indexOf(row))}" y1="${rowY + 50}" x2="${txX(i)}" y2="${txY - 26}" stroke="#16a34a" stroke-width="3"/>`;
+    });
+    if (tx.waitingFor) g += `<line x1="${txX(i)}" y1="${txY - 26}" x2="${rowX(names.indexOf(tx.waitingFor)) + 12}" y2="${rowY + 52}" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arr)"/>`;
+  });
+  names.forEach((r, i) => {
+    const holder = s.locks[r];
+    g += `<rect x="${rowX(i) - 60}" y="${rowY}" width="120" height="50" rx="10" fill="${cssv("--node")}" stroke="${holder ? "#16a34a" : cssv("--nodeline")}" stroke-width="${holder ? 2 : 1}"/>
+      <text x="${rowX(i)}" y="${rowY + 21}" text-anchor="middle">Account ${r}</text>
+      <text class="small" x="${rowX(i)}" y="${rowY + 38}" text-anchor="middle">${holder ? "locked by T" + holder : "free"}</text>`;
+  });
+  shown.forEach((tx, i) => {
+    const victim = flash.length && Math.max(...flash) === tx.id, inCycle = flash.includes(tx.id);
+    const fill = tx.retryAt > t ? cssv("--slot") : tx.waitingFor ? "#fde68a" : "#bbf7d0";
+    g += `<circle cx="${txX(i)}" cy="${txY}" r="26" fill="${fill}" stroke="${victim ? "#dc2626" : inCycle ? "#f59e0b" : "#64748b"}" stroke-width="${victim ? 4 : inCycle ? 3 : 1}"/>
+      <text x="${txX(i)}" y="${txY + 4}" text-anchor="middle" style="fill:#18212f;font-weight:650">T${tx.id}</text>
+      <text class="small" x="${txX(i)}" y="${txY + 44}" text-anchor="middle">${tx.from}→${tx.to}</text>
+      <text class="small" x="${txX(i)}" y="${txY + 58}" text-anchor="middle">${tx.retryAt > t ? "backing off" : tx.waitingFor ? "waiting for " + tx.waitingFor : tx.stage === 2 ? "committing" : tx.stage === 1 ? "working" : "starting"}</text>`;
+  });
+  if (s.txs.length > shown.length) g += `<text class="small" x="740" y="${txY + 4}" text-anchor="end">+${s.txs.length - shown.length} more waiting</text>`;
+  if (!s.txs.length) g += `<text class="small" x="380" y="${txY}" text-anchor="middle">${DL.mode === "classic" && s.committed >= 4 ? "All transfers done. Press Reset to watch again." : "No transfers running."}</text>`;
+  $("dlNote").hidden = !stuckNote;
+  $("dlSvg").innerHTML = g;
+  const sum = s.summary();
+  $("dlDone").textContent = sum.committed; $("dlDead").textContent = sum.deadlocks; $("dlDeadBox").classList.toggle("bad", sum.deadlocks > 0);
+  $("dlWait").textContent = sum.committed ? ms(sum.avgWaitMs) : "–"; $("dlStuck").textContent = sum.waitingNow;
+  $("dlClock").textContent = `simulated ${(t / 1000).toFixed(1)} s`;
+  const logHtml = s.log.slice().reverse().map(l => `<li>${(l.t / 1000).toFixed(1)} s: ${esc(l.text)}</li>`).join("") || "<li>No deadlocks yet.</li>";
+  if ($("dlLog")._h !== logHtml) $("dlLog").innerHTML = $("dlLog")._h = logHtml;
+};
+quiz("dlQ", "Every transfer locks its 'from' account first. Switch to always locking the lower account letter first. What happens to deadlocks?",
+  ["They become rarer but still happen", "They can no longer happen", "Nothing changes", "Transfers start losing money"], 1,
+  "With one global order, a transfer can only wait for a lock 'later' in that order, so a loop of waits can't close.");
+$("dlCompare").onclick = () => {
+  const base = { accounts: 4, rate: +$("dlRate").value, detectEveryS: +$("dlDetect").value, seed: 3 };
+  const rows = [["as_written", 'Lock "from" first'], ["sorted", "Lock lowest id first"]].map(([o, name]) => ({ name, r: Sims.DeadlockSim.run({ ...base, order: o }, 60) }));
+  $("dlTable").innerHTML = `<table><thead><tr><th></th><th>committed</th><th>deadlocks</th><th>avg wait</th><th>stuck at end</th></tr></thead><tbody>
+    ${rows.map(({ name, r }) => `<tr><td>${name}</td><td>${r.committed}</td><td class="${r.deadlocks ? "" : "best"}">${r.deadlocks}</td><td>${ms(r.avgWaitMs)}</td><td>${r.waitingNow}</td></tr>`).join("")}
+    </tbody></table><div class="hint" style="margin-top:4px">${base.rate} transfers/s across 4 accounts, deadlock check every ${base.detectEveryS} s.</div>`;
+};
+
+/* ---------- tabs ---------- */
+function showTab() {
+  const which = location.hash === "#deadlock" ? "dl" : "lb";
+  document.querySelectorAll("[data-tab]").forEach(a => a.setAttribute("aria-current", a.dataset.tab === which ? "page" : "false"));
+  $("tab-lb").hidden = which !== "lb"; $("tab-dl").hidden = which !== "dl";
+  active = which === "lb" ? LB : DL;
+}
+window.addEventListener("hashchange", showTab);
+lbReset(); dlReset(); showTab();
+</script>
+</body>
+</html>
